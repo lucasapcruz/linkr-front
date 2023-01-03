@@ -12,8 +12,6 @@ const UserStyles = createGlobalStyle`
       color: #fff;
 
       max-width: 100vw;
-
-      padding: 125px 0 0;
     }
 
     a {

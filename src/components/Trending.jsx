@@ -13,11 +13,12 @@ export default function Trending() {
 }
 
 const Div = styled.div`
-  height: 406px;
-
   background: #171717;
   border-radius: 16px;
   padding: 16px;
+
+  width: 100%;
+  height: min-content;
 
   .title {
     font-family: "Oswald";
