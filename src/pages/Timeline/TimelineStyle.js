@@ -3,7 +3,6 @@ import styled from 'styled-components';
 export const TimelineStyle = styled.div`
   display: flex;
   justify-content: center;
-  width: 100vw;
   min-height: 100vh;
   height: fit-content;
   background-color: #333333;
