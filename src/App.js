@@ -1,7 +1,15 @@
-function App() {
+import GlobalStyled from "./GlobalStyled";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import TimelinePage from "./pages/Timeline/TImelinePage";
+
+export default function App() {
+
   return (
-    <div>Hello World!</div>
+    <Router>
+      <GlobalStyled/>
+      <Routes>
+        <Route path="/timeline" element={<TimelinePage/>}/>
+      </Routes>
+    </Router>
   );
 }
-
-export default App;
