@@ -53,8 +53,16 @@ export const TimelineStyle = styled.div`
     .publish {
       text-align: center;
       padding: 15px;
+
       img {
         display: none;
+      }
+
+      .content {
+        gap: 8px;
+        .title {
+          margin-bottom: 10px;
+        }
       }
     }
 
