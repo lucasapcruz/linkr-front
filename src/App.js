@@ -4,8 +4,9 @@ import UserStyles from "./assets/css/userStyles";
 import Home from "./pages/home/home";
 import SignIn from "./pages/signIn/signIn";
 import SignUp from "./pages/signUp/signUp";
+import TimelinePage from "./pages/Timeline/TImelinePage";
 
-function App() {
+export default function App() {
   return (
     <BrowserRouter>
       <GlobalStyles />
@@ -14,9 +15,8 @@ function App() {
         <Route path="/" element={<Home />} />
         <Route path="/sign-in" element={<SignIn />} />
         <Route path="/sign-up" element={<SignUp />} />
+        <Route path="/timeline" element={<TimelinePage/>}/>
       </Routes>
     </BrowserRouter>
   );
 }
-
-export default App;
