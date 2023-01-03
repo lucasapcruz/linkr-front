@@ -29,6 +29,7 @@ export const Style = styled.a`
     flex-direction: column;
     gap: 8px;
     width: calc(100% - 155px);
+    word-break: break-word;
 
     * {
       font-weight: 400;
@@ -54,6 +55,8 @@ export const Style = styled.a`
 
     width: 155px;
     height: 100%;
+    object-fit: cover;
+
   }
 
 `;
