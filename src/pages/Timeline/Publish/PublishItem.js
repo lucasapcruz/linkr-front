@@ -30,15 +30,12 @@ export default function PublishItem({image, updateTimeline}) {
       console.log(e);
       window.alert("Houve um erro ao publicar seu link");
       setLoading(false);
-      items.forEach(e => {
-        e.disabled = false;
-        e.value = "";
-      });
+      items.forEach(e => e.disabled = false);
     });
   }
 
   return (
-    <PublishStyle>
+    <PublishStyle className="publish">
       <img src={image ? image : "https://upload.wikimedia.org/wikipedia/commons/thumb/7/7c/User_font_awesome.svg/2048px-User_font_awesome.svg.png"} alt=""/>
       <form className="content" onSubmit={eventHandler}>
         <div className="title">What are you going to share today?</div>
