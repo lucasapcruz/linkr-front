@@ -16,6 +16,7 @@ export const PostStyle = styled.li`
     width: 50px;
     height: 50px;
     border-radius: 26.5px;
+    object-fit: cover;
   }
 
   .content {

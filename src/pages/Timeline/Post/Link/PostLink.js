@@ -56,7 +56,6 @@ export const Style = styled.a`
     width: 155px;
     height: 100%;
     object-fit: cover;
-
   }
 
 `;

@@ -2,7 +2,7 @@ import axios from "axios";
 import { useState } from "react";
 import { PublishStyle } from "./PublishStyle";
 
-export default function PublishItem({updateTimeline}) {
+export default function PublishItem({image, updateTimeline}) {
   const [loading, setLoading] = useState(false);
 
   function eventHandler(e) {
@@ -39,7 +39,7 @@ export default function PublishItem({updateTimeline}) {
 
   return (
     <PublishStyle>
-      <img src="" alt=""/>
+      <img src={image ? image : "https://upload.wikimedia.org/wikipedia/commons/thumb/7/7c/User_font_awesome.svg/2048px-User_font_awesome.svg.png"} alt=""/>
       <form className="content" onSubmit={eventHandler}>
         <div className="title">What are you going to share today?</div>
         <input type="url" name="link" id="link" placeholder="http://..."/>
