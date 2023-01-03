@@ -12,6 +12,7 @@ export default function Header() {
       <div className="user">
         <Fa.FaChevronDown />
         <img
+          className="profile-picture"
           src="https://img.freepik.com/fotos-premium/gatinho-laranja-com-olhos-azuis-isolado_288990-1194.jpg"
           alt="foto do usuário"
         />
@@ -41,21 +42,11 @@ const Nav = styled.nav`
     display: flex;
     align-items: center;
     gap: 5px;
-
-    img {
-      height: 100%;
-      aspect-ratio: 1/1;
-      border-radius: 100%;
-    }
   }
 
   @media (max-width: 768px) {
     .user {
       font-size: 24px;
-
-      img {
-        height: 45px;
-      }
     }
   }
 `;
