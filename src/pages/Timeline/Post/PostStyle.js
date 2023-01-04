@@ -7,9 +7,20 @@ export const PostStyle = styled.li`
   gap: 16px;
   padding: 20px;
   border-radius: 16px;
+  position: relative;
 
   * {
     font-family: 'Lato', sans-serif;
+  }
+
+  .options {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    
+    * {
+      cursor: pointer;
+    }
   }
 
   img {
@@ -23,6 +34,7 @@ export const PostStyle = styled.li`
     display: flex;
     flex-direction: column;
     gap: 8px;
+    width: 100%;
 
     .name {
       font-size: 19px;
@@ -33,6 +45,18 @@ export const PostStyle = styled.li`
       font-size: 17px;
       color: #B7B7B7;
       margin-bottom: 8px;
+      word-break: break-all;
+    }
+
+    #editmsg {
+      font-size: 14px;
+      outline: 0;
+      resize: none;
+      color: #4C4C4C;
+      background-color: white;
+      border-radius: 7px;
+      overflow: hidden;
+      padding: 3px 10px 7px;
     }
   }
   

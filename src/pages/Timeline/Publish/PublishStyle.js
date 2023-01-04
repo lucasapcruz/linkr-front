@@ -3,18 +3,19 @@ import { PostStyle } from '../Post/PostStyle';
 
 export const PublishStyle = styled(PostStyle)`
   background-color: white;
+  
   * {
     font-weight: 300;
   }
-
+  
   .content {
     width: 100%;
-
+    
     .title {
       font-size: 20px;
       color: #707070;
     }
-
+    
     input,
     textarea {
       resize: none;
@@ -22,6 +23,7 @@ export const PublishStyle = styled(PostStyle)`
       border-radius: 5px;
       padding: 8px 16px;
       font-size: 15px;
+      border: 0;
     }
 
     input::placeholder,

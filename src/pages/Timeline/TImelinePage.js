@@ -1,5 +1,5 @@
-import axios from "axios";
 import { useEffect, useState } from "react";
+import { getPosts } from "../../services/api";
 import PostItem from "./Post/PostItem";
 import PublishItem from "./Publish/PublishItem";
 import { TimelineStyle } from "./TimelineStyle";
@@ -14,9 +14,7 @@ export default function TimelinePage() {
   }
 
   useEffect(() => {
-    const token = "one";
-    const headers = {Authorization: "Bearer " + token};
-    axios.get("http://localhost:5000/posts", {headers})
+    getPosts()
     .then(r => setPosts(r.data))
     .catch(e => {
       console.log(e);
