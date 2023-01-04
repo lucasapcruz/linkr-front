@@ -5,6 +5,7 @@ import Form from "../../components/Form";
 // import Logo, { StyledLogo } from "../../components/Logo";
 import { LargeLogo } from "../../components/Logo";
 import { useAuth } from "../../hooks/authContext";
+import { signIn } from "../../services/api";
 
 export default function SignIn() {
   const navigate = useNavigate();
@@ -16,6 +17,7 @@ export default function SignIn() {
     password: "",
   });
 
+  //apenas uma simulação de login, apagar depois
   const loginSimulation = new Promise((resolve, reject) => {
     if (1 > 0) {
       resolve({
@@ -34,6 +36,8 @@ export default function SignIn() {
   function formSubmit(e) {
     e.preventDefault();
     setIsLoading(true);
+
+    signIn(); //substituir o loginSimulation por esse depois
 
     loginSimulation
       .then((res) => {
