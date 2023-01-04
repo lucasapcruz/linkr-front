@@ -7,6 +7,7 @@ import { IoTrash } from 'react-icons/io5';
 import { IconContext } from "react-icons";
 import Modal from 'react-modal';
 import { TailSpin } from  'react-loader-spinner'
+import HashtagText from "../../../components/HashtagText";
 
 export default function PostItem({data, updateTimeline}) {
   const {id, image_url, name, link, message, owner} = data;
@@ -120,7 +121,7 @@ export default function PostItem({data, updateTimeline}) {
               value={text} onFocus={handleText} onChange={handleText} ref={inputRef}
               onKeyDown={keyPressHandler}
             />
-          : <div className="message">{currMessage}</div>
+          : <div className="message"><HashtagText>{currMessage}</HashtagText></div>
         }
         {link ? <PostLink data={link}/> : null}
       </div>
