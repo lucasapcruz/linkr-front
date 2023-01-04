@@ -1,20 +1,87 @@
-import { Link } from "react-router-dom";
+import { useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import Form from "../../components/Form";
 // import Logo, { StyledLogo } from "../../components/Logo";
 import { LargeLogo } from "../../components/Logo";
+import { useAuth } from "../../hooks/authContext";
 
 export default function SignIn() {
+  const navigate = useNavigate();
+  const { setUser } = useAuth();
+
+  const [isLoading, setIsLoading] = useState(false);
+  const [form, setForm] = useState({
+    email: "",
+    password: "",
+  });
+
+  const loginSimulation = new Promise((resolve, reject) => {
+    if (1 > 0) {
+      resolve({
+        data: {
+          name: "user name",
+          token: "1234",
+          picture_url:
+            "https://img.freepik.com/fotos-premium/gatinho-laranja-com-olhos-azuis-isolado_288990-1194.jpg",
+        },
+      });
+    } else {
+      reject(422);
+    }
+  });
+
+  function formSubmit(e) {
+    e.preventDefault();
+    setIsLoading(true);
+
+    loginSimulation
+      .then((res) => {
+        console.log(res.data);
+        localStorage.setItem("user", JSON.stringify(res.data));
+        setUser({ ...res.data });
+        navigate("/");
+      })
+      .catch((err) => {
+        console.log(err);
+        setIsLoading(false);
+      });
+  }
+
+  function formHandler(e) {
+    e.preventDefault();
+    setForm({ ...form, [e.target.name]: e.target.value });
+  }
+
   return (
     <SignContainer>
       <div className="left">
         <LargeLogo />
       </div>
       <div className="right">
-        <Form>
-          <input type="text" placeholder="e-mail" />
-          <input type="password" placeholder="password" />
-          <button type="submit">Log In</button>
+        <Form onSubmit={formSubmit}>
+          <input
+            type="text"
+            placeholder="e-mail"
+            name="email"
+            value={form.email}
+            onChange={(e) => formHandler(e)}
+            maxLength="55"
+            disabled={isLoading}
+            required
+          />
+          <input
+            type="password"
+            placeholder="password"
+            name="password"
+            value={form.password}
+            onChange={(e) => formHandler(e)}
+            disabled={isLoading}
+            required
+          />
+          <button type="submit" disabled={isLoading}>
+            Log In
+          </button>
         </Form>
         <Link to={"/sign-up"}>First time? Create an account!</Link>
       </div>
