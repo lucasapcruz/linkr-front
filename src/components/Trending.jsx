@@ -1,12 +1,14 @@
 import styled from "styled-components";
+import HashtagText from "./HashtagText";
 
 export default function Trending() {
+
   return (
     <Div>
       <p className="title">trending</p>
       <hr />
       <HashtagList>
-        <li className="hashtag">#react</li>
+        <HashtagText>Isso olá #teste</HashtagText>
       </HashtagList>
     </Div>
   );
