@@ -1,15 +1,27 @@
-import { useState } from "react";
 import styled from "styled-components";
 import { useAuth } from "../hooks/authContext";
+import { useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
 
 import { SmallLogo } from "./Logo";
 import * as Fa from "react-icons/fa";
-import { Link } from "react-router-dom";
 
 export default function Header() {
-  const { user } = useAuth();
+  const navigate = useNavigate();
 
+  const { user, setUser } = useAuth();
   const [dropDown, setDropDown] = useState(false);
+
+  function logOut() {
+    localStorage.clear();
+    setUser({
+      token: undefined,
+      name: undefined,
+      pictureUrl: undefined,
+    });
+
+    navigate("/sign-in");
+  }
 
   return (
     <Nav>
@@ -27,7 +39,9 @@ export default function Header() {
           }
           alt="foto do usuário"
         />
-        <DropDown dropDown={dropDown}>Logout</DropDown>
+        <DropDown dropDown={dropDown} onClick={() => logOut()}>
+          Logout
+        </DropDown>
       </div>
       <Overlay dropDown={dropDown} onClick={() => setDropDown(false)} />
     </Nav>
