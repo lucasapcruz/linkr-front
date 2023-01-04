@@ -2,8 +2,11 @@ import styled from "styled-components";
 import { SmallLogo } from "./Logo";
 import * as Fa from "react-icons/fa";
 import { Link } from "react-router-dom";
+import { useAuth } from "../hooks/authContext";
 
 export default function Header() {
+  const { user } = useAuth();
+
   return (
     <Nav>
       <Link to={"/"}>
@@ -13,7 +16,7 @@ export default function Header() {
         <Fa.FaChevronDown />
         <img
           className="profile-picture"
-          src="https://img.freepik.com/fotos-premium/gatinho-laranja-com-olhos-azuis-isolado_288990-1194.jpg"
+          src={user.pictureUrl}
           alt="foto do usuário"
         />
       </div>

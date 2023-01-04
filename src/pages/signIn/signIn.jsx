@@ -22,7 +22,7 @@ export default function SignIn() {
         data: {
           name: "user name",
           token: "1234",
-          picture_url:
+          pictureUrl:
             "https://img.freepik.com/fotos-premium/gatinho-laranja-com-olhos-azuis-isolado_288990-1194.jpg",
         },
       });
