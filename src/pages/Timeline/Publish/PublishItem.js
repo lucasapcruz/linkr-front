@@ -1,11 +1,11 @@
-import axios from "axios";
 import { useState } from "react";
+import { postPost } from "../../../services/api";
 import { PublishStyle } from "./PublishStyle";
 
 export default function PublishItem({image, updateTimeline}) {
   const [loading, setLoading] = useState(false);
 
-  function eventHandler(e) {
+  function formHandler(e) {
     const items = Array.from(e.target);
     e.preventDefault();
     setLoading(true);
@@ -15,9 +15,7 @@ export default function PublishItem({image, updateTimeline}) {
     const data = { link: link.value };
     if (message.value) data.message = message.value;
 
-    const token = "one";
-    const headers = {Authorization: "Bearer " + token};
-    axios.post("http://localhost:5000/posts", data, {headers})
+    postPost(data)
     .then(r => {
       setLoading(false);
       updateTimeline();
@@ -37,7 +35,7 @@ export default function PublishItem({image, updateTimeline}) {
   return (
     <PublishStyle className="publish">
       <img src={image ? image : "https://upload.wikimedia.org/wikipedia/commons/thumb/7/7c/User_font_awesome.svg/2048px-User_font_awesome.svg.png"} alt=""/>
-      <form className="content" onSubmit={eventHandler}>
+      <form className="content" onSubmit={formHandler}>
         <div className="title">What are you going to share today?</div>
         <input type="url" name="link" id="link" placeholder="http://..." required/>
         <textarea type="text" name="message" id="message" rows="3" maxLength="1000" placeholder="Awesome article about #javascript"/>
