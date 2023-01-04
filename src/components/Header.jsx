@@ -56,6 +56,7 @@ export default function Header() {
 }
 
 const Nav = styled.nav`
+  z-index: 1;
   position: fixed;
   top: 0;
   left: 0;

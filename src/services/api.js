@@ -29,3 +29,7 @@ export function getPosts() {
 export function updatePost(body) {
   return api.patch("/posts", body);
 }
+
+export function deletePost(id) {
+  return api.delete("/posts/" + id);
+}
