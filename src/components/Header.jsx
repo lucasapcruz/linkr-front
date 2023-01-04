@@ -16,7 +16,10 @@ export default function Header() {
         <Fa.FaChevronDown />
         <img
           className="profile-picture"
-          src={user.pictureUrl}
+          src={
+            user.pictureUrl ||
+            "https://static.vecteezy.com/system/resources/previews/008/442/086/original/illustration-of-human-icon-user-symbol-icon-modern-design-on-blank-background-free-vector.jpg"
+          }
           alt="foto do usuário"
         />
       </div>
