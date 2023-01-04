@@ -1,12 +1,32 @@
+import axios from "axios";
+import { useEffect, useState } from "react";
 import styled from "styled-components";
+import HashtagText from "./HashtagText";
 
 export default function Trending() {
+
+  const [hashtags, setHashtags] = useState(null);
+
+  useEffect(() => {
+    const token = "one";
+    const headers = {Authorization: "Bearer " + token};
+    axios.get("http://localhost:5000/hashtags", {headers})
+    .then(r => {
+      console.log(r.data)
+      setHashtags(r.data)
+    })
+    .catch(e => {
+      console.log(e);
+      // setStatus("An error occured while trying to fetch the posts, please refresh the page");
+    });
+  }, []);
+
   return (
     <Div>
       <p className="title">trending</p>
       <hr />
       <HashtagList>
-        <li className="hashtag">#react</li>
+        {hashtags?.map(h => <HashtagText>{`#${h.name}`}</HashtagText>)}
       </HashtagList>
     </Div>
   );

@@ -27,7 +27,7 @@ export default function TimelinePage() {
       <main>
         <h1>timeline</h1>
         <ul>
-          <PublishItem image={posts ? posts[0].image_url : null} updateTimeline={updateTimeline}/>
+          <PublishItem image={posts ? null : null} updateTimeline={updateTimeline}/>
           {posts 
             ? posts.length > 0 
               ? posts.map(e => <PostItem key={e.id} data={e}/>)
