@@ -1,19 +1,43 @@
 import styled from "styled-components";
+import { useAuth } from "../hooks/authContext";
+import { useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
+
 import { SmallLogo } from "./Logo";
 import * as Fa from "react-icons/fa";
-import { Link } from "react-router-dom";
-import { useAuth } from "../hooks/authContext";
+import { logOut } from "../services/api";
 
 export default function Header() {
-  const { user } = useAuth();
+  const navigate = useNavigate();
+
+  const { user, setUser } = useAuth();
+  const [dropDown, setDropDown] = useState(false);
+
+  function logOutHandler() {
+    logOut()
+      .then((res) => {
+        localStorage.clear();
+        setUser({
+          token: undefined,
+          name: undefined,
+          pictureUrl: undefined,
+        });
+      })
+      .catch((res) => {
+        console.log(res.response.data);
+      });
+
+    navigate("/sign-in");
+  }
 
   return (
     <Nav>
       <Link to={"/"}>
         <SmallLogo />
       </Link>
-      <div className="user">
-        <Fa.FaChevronDown />
+      <div className="user" onClick={() => setDropDown(!dropDown)}>
+        {dropDown ? <Fa.FaChevronUp /> : <Fa.FaChevronDown />}
+
         <img
           className="profile-picture"
           src={
@@ -22,7 +46,11 @@ export default function Header() {
           }
           alt="foto do usuário"
         />
+        <DropDown dropDown={dropDown} onClick={() => logOutHandler()}>
+          Logout
+        </DropDown>
       </div>
+      <Overlay dropDown={dropDown} onClick={() => setDropDown(false)} />
     </Nav>
   );
 }
@@ -33,6 +61,7 @@ const Nav = styled.nav`
   left: 0;
 
   width: 100vw;
+  height: 72px;
   background: #000;
 
   padding: 10px 28px;
@@ -41,6 +70,12 @@ const Nav = styled.nav`
   align-items: center;
   justify-content: space-between;
 
+  * {
+    -webkit-user-select: none; /* Safari */
+    -ms-user-select: none; /* IE 10 and IE 11 */
+    user-select: none; /* Standard syntax */
+  }
+
   .user {
     font-size: 30px;
     height: 53px;
@@ -48,6 +83,16 @@ const Nav = styled.nav`
     display: flex;
     align-items: center;
     gap: 5px;
+
+    position: relative;
+
+    transition: all 200ms ease;
+  }
+
+  svg {
+    &:hover {
+      cursor: pointer;
+    }
   }
 
   @media (max-width: 768px) {
@@ -55,4 +100,46 @@ const Nav = styled.nav`
       font-size: 24px;
     }
   }
+`;
+
+const DropDown = styled.div`
+  position: absolute;
+  left: 0;
+  top: 60px;
+  z-index: 3;
+
+  display: flex;
+  visibility: ${(props) => (props.dropDown ? "visible" : "hidden")};
+  opacity: ${(props) => (props.dropDown ? "1" : "0")};
+
+  justify-content: center;
+  justify-items: center;
+
+  padding: 15px 15px 20px;
+
+  width: 100%;
+  border-radius: 0 0 20px 20px;
+  background-color: #000;
+
+  font-weight: 700;
+  font-size: 17px;
+
+  transition: all 200ms ease;
+
+  &:hover {
+    cursor: pointer;
+  }
+`;
+
+const Overlay = styled.div`
+  width: 100vw;
+  height: 100vh;
+
+  position: fixed;
+  top: 0;
+  left: 0;
+
+  z-index: 2;
+
+  display: ${(props) => (props.dropDown ? "block" : "none")};
 `;
