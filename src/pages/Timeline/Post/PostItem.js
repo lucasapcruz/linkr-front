@@ -1,18 +1,24 @@
 import { useEffect, useRef, useState } from "react";
-import { updatePost } from "../../../services/api";
+import { deletePost, updatePost } from "../../../services/api";
 import PostLink from "./Link/PostLink";
 import { PostStyle } from "./PostStyle";
 import { RiPencilFill } from 'react-icons/ri';
+import { IoTrash } from 'react-icons/io5';
 import { IconContext } from "react-icons";
+import Modal from 'react-modal';
+import { TailSpin } from  'react-loader-spinner'
 
-export default function PostItem({data}) {
+export default function PostItem({data, updateTimeline}) {
   const {id, image_url, name, link, message, owner} = data;
   const [text, setText] = useState(message);
   const [currMessage, setCurrMessage] = useState(message);
   const [editing, setEditing] = useState(false);
   // eslint-disable-next-line
   const [loading, setLoading] = useState(false);
+  const [deleteLoading, setDeleteLoading] = useState(false);
+  const [modalIsOpen, setModalIsOpen] = useState(false);
   const inputRef = useRef(null);
+  Modal.setAppElement('#root');
 
   function toogleEdit() {
     setEditing(editing => {
@@ -55,14 +61,57 @@ export default function PostItem({data}) {
       });
     }
   }
+  
+  function toogleModal() {
+    setModalIsOpen(state => !state);
+  }
+  
+  function deleteHandler() {
+    setDeleteLoading(true);
+    deletePost(id)
+    .then(() => {
+      toogleModal();
+      updateTimeline();
+    })
+    .catch((err) => {
+      toogleModal();
+      window.alert("Não foi possível excluir o post.");
+    })
+  }
 
   return (
     <PostStyle>
       {owner && <div className="options">
         <IconContext.Provider value={{ size:"20px" }}>
           <div className="edit" onClick={toogleEdit}><RiPencilFill/></div>
+          <div className="delete" onClick={toogleModal}><IoTrash/></div>
         </IconContext.Provider>
       </div>}
+      <Modal 
+        isOpen={modalIsOpen}
+        className="modal"
+        overlayClassName="overlay"
+      >
+        { deleteLoading 
+          ? <TailSpin
+              height="80"
+              width="80"
+              color="white"
+              ariaLabel="tail-spin-loading"
+              radius="1"
+              wrapperStyle={{}}
+              wrapperClass=""
+              visible={true}
+            />
+          : <>
+              <div className="title">Are you sure you want to delete this post?</div>
+              <div className="buttons">
+                <button className="cancel" onClick={toogleModal}>No, go back</button>
+                <button className="ok" onClick={deleteHandler}>Yes, delete it</button>
+              </div>
+            </>
+        }
+      </Modal>
       <img src={image_url} alt=""/>
       <div className="content">
         <div className="name">{name}</div>

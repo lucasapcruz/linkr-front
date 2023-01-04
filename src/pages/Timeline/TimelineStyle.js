@@ -27,6 +27,7 @@ export const TimelineStyle = styled.div`
   .status {
     color: white;
     font-size: 64px;
+    align-self: center;
   }
 
   @media (max-width:611px) {

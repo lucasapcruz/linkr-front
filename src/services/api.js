@@ -1,7 +1,7 @@
 import axios from "axios";
 
-// const URL = "http://localhost:5000/";
-const URL = "https://linkr-api-itfc.onrender.com/";
+const URL = "http://localhost:5000/";
+// const URL = "https://linkr-api-itfc.onrender.com/";
 
 export const api = axios.create({ baseURL: URL });
 
@@ -25,4 +25,8 @@ export function getPosts() {
 
 export function updatePost(body) {
   return api.patch("/posts", body);
+}
+
+export function deletePost(id) {
+  return api.delete("/posts/" + id);
 }
