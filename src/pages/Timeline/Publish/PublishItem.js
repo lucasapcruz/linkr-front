@@ -12,8 +12,8 @@ export default function PublishItem({image, updateTimeline}) {
     items.forEach(e => e.disabled = true);
 
     const { link, message } = e.target;
-    const data = { message: message.value };
-    if (link.value) data.link = link.value;
+    const data = { link: link.value };
+    if (message.value) data.message = message.value;
 
     const token = "one";
     const headers = {Authorization: "Bearer " + token};
@@ -39,8 +39,8 @@ export default function PublishItem({image, updateTimeline}) {
       <img src={image ? image : "https://upload.wikimedia.org/wikipedia/commons/thumb/7/7c/User_font_awesome.svg/2048px-User_font_awesome.svg.png"} alt=""/>
       <form className="content" onSubmit={eventHandler}>
         <div className="title">What are you going to share today?</div>
-        <input type="url" name="link" id="link" placeholder="http://..."/>
-        <textarea type="text" name="message" id="message" rows="3" maxLength="1000" placeholder="Awesome article about #javascript" required/>
+        <input type="url" name="link" id="link" placeholder="http://..." required/>
+        <textarea type="text" name="message" id="message" rows="3" maxLength="1000" placeholder="Awesome article about #javascript"/>
         <button>{loading ? "Publishing..." : "Publish"}</button>
       </form>
     </PublishStyle>

@@ -33,6 +33,7 @@ export const PostStyle = styled.li`
       font-size: 17px;
       color: #B7B7B7;
       margin-bottom: 8px;
+      word-break: break-all;
     }
   }
   
