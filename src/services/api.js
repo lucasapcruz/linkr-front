@@ -10,5 +10,8 @@ api.defaults.headers["Authorization"] = `Bearer ${TOKEN}`;
 
 export function signIn(body) {
   // return api.post("/sign-in", body);
-  console.log(TOKEN);
+}
+
+export function logOut() {
+  //return api.delete("/logout");
 }
