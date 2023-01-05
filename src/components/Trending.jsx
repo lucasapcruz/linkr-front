@@ -1,6 +1,6 @@
-import axios from "axios";
 import { useEffect, useState } from "react";
 import styled from "styled-components";
+import { getTrendingHashtags } from "../services/api";
 import HashtagText from "./HashtagText";
 
 export default function Trending() {
@@ -8,9 +8,7 @@ export default function Trending() {
   const [hashtags, setHashtags] = useState(null);
 
   useEffect(() => {
-    const token = "one";
-    const headers = {Authorization: "Bearer " + token};
-    axios.get("http://localhost:5000/hashtags", {headers})
+    getTrendingHashtags()
     .then(r => {
       console.log(r.data)
       setHashtags(r.data)
