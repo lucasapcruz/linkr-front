@@ -1,47 +1,65 @@
 import { useParams } from "react-router-dom";
 import Header from "../../components/Header";
 import MainContainer from "../../components/MainContainer";
+import PostItem from "../Timeline/Post/PostItem";
+import { TimelineStyle } from "../Timeline/TimelineStyle";
+import { TailSpin } from 'react-loader-spinner'
+import { useEffect, useState } from "react";
+import { getPosts } from "../../services/api";
+import { useAuth } from "../../hooks/authContext";
+
 
 export default function HashtagPage() {
 
   const {hashtag} = useParams();
+  const [posts, setPosts] = useState(null);
+  const [status, setStatus] = useState(true);
+  const [update, setUpdate] = useState(false);
+  const { user } = useAuth();
+
+  function updateTimeline() {
+    setUpdate(state => !state);
+    setPosts(null);
+  }
+
+  useEffect(() => {
+    updateTimeline()
+  }, [hashtag]);
+  
+  useEffect(() => {
+    getPosts(hashtag)
+      .then(r => setPosts(r.data))
+      .catch(e => {
+        console.log(e);
+        setStatus(false);
+      });
+  }, [update]);
 
   return (
     <>
       <Header />
       <MainContainer pageTitle={`# ${hashtag}`}>
-        Lorem ipsum dolor sit amet consectetur adipisicing elit. Necessitatibus
-        dolores fugiat natus laborum porro aliquid ad ducimus reprehenderit
-        soluta? Hic odit error ab recusandae. Voluptas totam sint odio veritatis
-        mollitia! Corporis incidunt architecto dolorum a similique suscipit
-        doloribus iusto. Blanditiis quidem et dolorum ipsum culpa veritatis quas
-        sit, quia placeat illum autem molestiae nam ad ex qui. Dicta, similique
-        aut! Adipisci, similique ullam. Amet sequi, quod officia magni totam,
-        laudantium velit aperiam placeat, voluptatibus animi vero neque
-        reiciendis labore expedita fugiat? Officiis reiciendis sed pariatur?
-        Assumenda suscipit voluptatem ex maxime! At neque assumenda ratione
-        numquam harum consectetur autem tenetur magnam atque sunt doloremque
-        dolores eaque pariatur quibusdam vitae rem deleniti voluptas vel, sed
-        libero dignissimos. Molestiae doloribus rerum facere nobis! Laboriosam
-        rem sint, harum illo labore dolore est aliquid unde ducimus iure
-        assumenda consequatur magnam, dolor, reiciendis inventore necessitatibus
-        maxime ad vel quo. Suscipit aspernatur, voluptas maiores non officiis
-        natus. Culpa praesentium dignissimos veritatis! Fugiat amet tempore
-        repellat hic, enim deleniti harum iste, exercitationem esse odio natus
-        officia! Eius ut vero ipsam amet ex accusamus recusandae ratione id
-        possimus qui. Ratione veniam adipisci incidunt dolore? Possimus eveniet
-        doloremque mollitia a. Veniam provident dolorem, doloribus tempora
-        repudiandae saepe pariatur tenetur! Reprehenderit fugiat maiores debitis
-        provident error harum dolorum amet dolor accusamus. Aut, quibusdam
-        labore eum quis mollitia illum deserunt quos soluta quidem. Hic, aut
-        facere? Odit unde temporibus placeat porro quasi sequi molestiae, maxime
-        asperiores, distinctio magni minima alias, numquam quas! Provident rem
-        ab, facere debitis corporis eveniet aperiam deserunt atque quaerat
-        dolore. Minus mollitia eligendi fuga nulla hic, assumenda molestias ea
-        velit expedita iure blanditiis? Expedita numquam nostrum quae magni!
-        Similique earum obcaecati quae cum sit ut voluptatibus deleniti in,
-        explicabo temporibus sapiente veniam illo a facere debitis cumque. Vero
-        enim placeat dolor quia tempore quasi laborum maiores non inventore.
+      <TimelineStyle>
+          <ul>
+            {posts
+              ? posts.length > 0
+                ? posts.map(e => <PostItem key={e.id} data={e} updateTimeline={updateTimeline}/>)
+                : <div className="status">There are no posts yet</div>
+              : status
+                ? <TailSpin
+                  height="80"
+                  width="80"
+                  color="white"
+                  ariaLabel="tail-spin-loading"
+                  radius="1"
+                  wrapperStyle={{ alignSelf: "center" }}
+                  wrapperClass=""
+                  visible={true}
+                />
+                : <div className="status">An error occured while trying to fetch the posts, please refresh the page</div>
+            }
+          </ul>
+        </TimelineStyle>
       </MainContainer>
     </>
   );
