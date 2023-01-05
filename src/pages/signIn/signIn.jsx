@@ -17,44 +17,27 @@ export default function SignIn() {
     password: "",
   });
 
-  //apenas uma simulação de login, apagar depois
-  const loginSimulation = new Promise((resolve, reject) => {
-    if (1 > 0) {
-      resolve({
-        data: {
-          name: "user name",
-          token: "1234",
-          pictureUrl:
-            "https://img.freepik.com/fotos-premium/gatinho-laranja-com-olhos-azuis-isolado_288990-1194.jpg",
-        },
-      });
-    } else {
-      reject(422);
-    }
-  });
+  function formHandler(e) {
+    e.preventDefault();
+    setForm({ ...form, [e.target.name]: e.target.value });
+  }
 
   function formSubmit(e) {
     e.preventDefault();
     setIsLoading(true);
 
-    signIn(); //substituir o loginSimulation por esse depois
-
-    loginSimulation
+    signIn(form)
       .then((res) => {
-        console.log(res.data);
         localStorage.setItem("user", JSON.stringify(res.data));
         setUser({ ...res.data });
         navigate("/");
       })
       .catch((err) => {
         console.log(err);
+        window.alert("Houve um erro no login. Verifique seu email e senha.");
         setIsLoading(false);
       });
-  }
-
-  function formHandler(e) {
-    e.preventDefault();
-    setForm({ ...form, [e.target.name]: e.target.value });
+    
   }
 
   return (
@@ -65,11 +48,11 @@ export default function SignIn() {
       <div className="right">
         <Form onSubmit={formSubmit}>
           <input
-            type="text"
+            type="email"
             placeholder="e-mail"
             name="email"
             value={form.email}
-            onChange={(e) => formHandler(e)}
+            onChange={formHandler}
             maxLength="55"
             disabled={isLoading}
             required
@@ -79,7 +62,7 @@ export default function SignIn() {
             placeholder="password"
             name="password"
             value={form.password}
-            onChange={(e) => formHandler(e)}
+            onChange={formHandler}
             disabled={isLoading}
             required
           />
