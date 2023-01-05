@@ -23,7 +23,7 @@ export default function HashtagPage() {
   }
   
   useEffect(() => {
-    getPosts()
+    getPosts(hashtag)
       .then(r => setPosts(r.data))
       .catch(e => {
         console.log(e);
