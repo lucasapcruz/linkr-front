@@ -9,7 +9,7 @@ export default function SignUp() {
 
   const [data, setData] = useState({name: '', email: '', password: '', image_url: ''})
   const navigate = useNavigate()  
-
+  const [isLoading, setIsLoding] = useState(false)
   function handleForm(e){
     const { name, value } = e.target
     setData({...data, [name]:value})
@@ -17,13 +17,20 @@ export default function SignUp() {
 
   function handleSendForm(e){
     e.preventDefault()
+    setIsLoding(true)
      postSignUp(data)
       .then(r => {
         navigate('/sign-in')
       })
       .catch(e => {
+        setIsLoding(false)
         console.log(e);
-        window.alert("Houve um erro no cadastro. Verifique os campos preenchidos.");
+        if(e.request.status === 409){
+          alert('Email inserido já cadastrado.')
+        }else{
+          window.alert("Houve um erro no cadastro. Verifique os campos preenchidos.");
+        }
+        
       })
   }
 
@@ -41,7 +48,7 @@ export default function SignUp() {
           <input type="text" placeholder="name" name="name" value={data.name} onChange={handleForm}/>
           <input type="url" placeholder="picture url" name="image_url" value={data.image_url} onChange={handleForm}/>
 
-          <button type="submit">Log In</button>
+          <button type="submit" disabled={isLoading}>{isLoading? "Loading..." : "Sign Up"}</button>
         </Form>
         <Link to={"/sign-in"}>Switch back to log in</Link>
       </div>
