@@ -21,6 +21,10 @@ export default function HashtagPage() {
     setUpdate(state => !state);
     setPosts(null);
   }
+
+  useEffect(() => {
+    updateTimeline()
+  }, [hashtag]);
   
   useEffect(() => {
     getPosts(hashtag)
