@@ -33,3 +33,8 @@ export function updatePost(body) {
 export function deletePost(id) {
   return api.delete("/posts/" + id);
 }
+
+// HASHTAGS ========================== 
+export function getTrendingHashtags(){
+  return api.get("/hashtags")
+}
