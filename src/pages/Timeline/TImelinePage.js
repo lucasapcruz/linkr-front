@@ -31,7 +31,7 @@ export default function TimelinePage() {
   return (
     <>
       <Header />
-      <MainContainer pageTitle={`timeline`}>
+      <MainContainer pageTitle={`timeline`} update={update}>
         <TimelineStyle>
           <ul>
             <PublishItem image={user.pictureUrl} updateTimeline={updateTimeline} />

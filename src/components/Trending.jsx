@@ -3,7 +3,7 @@ import styled from "styled-components";
 import { getTrendingHashtags } from "../services/api";
 import HashtagText from "./HashtagText";
 
-export default function Trending() {
+export default function Trending({update}) {
 
   const [hashtags, setHashtags] = useState(null);
 
@@ -17,7 +17,7 @@ export default function Trending() {
       console.log(e);
       // setStatus("An error occured while trying to fetch the posts, please refresh the page");
     });
-  }, []);
+  }, [update]);
 
   return (
     <Div>
