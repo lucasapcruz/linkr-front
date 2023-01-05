@@ -17,6 +17,9 @@ export const PostStyle = styled.li`
     position: absolute;
     top: 20px;
     right: 20px;
+
+    display: flex;
+    gap: 8px;
     
     * {
       cursor: pointer;

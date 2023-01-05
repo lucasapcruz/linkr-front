@@ -17,7 +17,6 @@ const Logo = styled.div`
     font-family: "Oswald", sans-serif;
     font-weight: 700;
     font-size: 43px;
-    line-height: 64px;
   }
 `;
 

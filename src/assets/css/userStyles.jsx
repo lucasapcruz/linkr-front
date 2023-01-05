@@ -76,6 +76,54 @@ const UserStyles = createGlobalStyle`
       width: 40px;
     }
     }
+
+    .overlay {
+      position: fixed;
+      inset: 0px;
+      background-color: rgba(255, 255, 255, 0.75);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .modal {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 40px;
+
+      background-color: #333333;
+      border-radius: 50px;
+      width: 597px;
+      height: 262px;
+
+      font-weight: 700;
+      font-size: 34px;
+      line-height: 41px;
+      text-align: center;
+      padding: 0 129px;
+
+      .buttons {
+        display: flex;
+        gap: 27px;
+
+        .cancel {
+          color: #1877F2;
+          background-color: white;
+        }
+      }
+
+      button {
+        font-size: 14px;
+        font-weight: 700;
+        color: white;
+        width: 112px;
+        height: 31px;
+        background-color: #1877F2;
+        border-radius: 5px;
+      }
+    }
 `;
 
 export default UserStyles;
