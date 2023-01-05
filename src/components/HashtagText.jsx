@@ -24,4 +24,5 @@ export default function HashtagText(props) {
 
 const StyledHashtag = styled.span`
   cursor: pointer;
+  display: block;
 `
