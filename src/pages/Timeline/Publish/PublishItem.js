@@ -36,7 +36,6 @@ export default function PublishItem({image, updateTimeline}) {
     <PublishStyle className="publish">
       <img src={image ? image : "https://upload.wikimedia.org/wikipedia/commons/thumb/7/7c/User_font_awesome.svg/2048px-User_font_awesome.svg.png"} alt=""/>
       <form className="content" onSubmit={formHandler}>
-        <div className="title">What are you going to share today?</div>
         <input type="url" name="link" id="link" placeholder="http://..." required/>
         <textarea type="text" name="message" id="message" rows="3" maxLength="1000" placeholder="Awesome article about #javascript"/>
         <button>{loading ? "Publishing..." : "Publish"}</button>

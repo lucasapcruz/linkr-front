@@ -1,7 +1,7 @@
 import axios from "axios";
 
-// const URL = "http://localhost:5000/";
-const URL = "https://linkr-api-itfc.onrender.com/";
+const URL = "http://localhost:5000/";
+// const URL = "https://linkr-api-itfc.onrender.com/";
 
 export const api = axios.create({ baseURL: URL });
 
@@ -9,8 +9,12 @@ const TOKEN = JSON.parse(localStorage.getItem("user"))?.token;
 
 api.defaults.headers["Authorization"] = `Bearer ${TOKEN}`;
 
+export function postSignUp(body) {
+  return api.post("/sign-up", body);
+}
+
 export function signIn(body) {
-  // return api.post("/sign-in", body);
+  return api.post("/sign-in", body);
 }
 
 export function logOut() {
