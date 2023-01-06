@@ -43,10 +43,10 @@ export default function SignUp() {
       </div>
       <div className="right">
         <Form onSubmit={handleSendForm}>
-          <input type="email" placeholder="e-mail" name="email" value={data.email} onChange={handleForm} />
-          <input type="password" placeholder="password" name="password" value={data.password} onChange={handleForm}/>
-          <input type="text" placeholder="name" name="name" value={data.name} onChange={handleForm}/>
-          <input type="url" placeholder="picture url" name="image_url" value={data.image_url} onChange={handleForm}/>
+          <input type="email" placeholder="e-mail" name="email" value={data.email} onChange={handleForm} required/>
+          <input type="password" placeholder="password" name="password" value={data.password} onChange={handleForm} required/>
+          <input type="text" placeholder="name" name="name" value={data.name} onChange={handleForm} required/>
+          <input type="url" placeholder="picture url" name="image_url" value={data.image_url} onChange={handleForm} required/>
 
           <button type="submit" disabled={isLoading}>{isLoading? "Loading..." : "Sign Up"}</button>
         </Form>
