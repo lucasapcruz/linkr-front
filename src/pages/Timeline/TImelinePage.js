@@ -7,11 +7,13 @@ import { TimelineStyle } from "./TimelineStyle";
 import { TailSpin } from 'react-loader-spinner'
 import Header from "../../components/Header";
 import MainContainer from "../../components/MainContainer";
+import { useNavigate } from "react-router-dom";
 
 export default function TimelinePage() {
   const [posts, setPosts] = useState(null);
   const [update, setUpdate] = useState(false);
   const [status, setStatus] = useState(true);
+  const navigate = useNavigate();
   const { user } = useAuth();
 
   function updateTimeline() {
@@ -20,13 +22,15 @@ export default function TimelinePage() {
   }
 
   useEffect(() => {
+    if (!user.token) navigate("/");
+
     getPosts()
       .then(r => setPosts(r.data))
       .catch(e => {
         console.log(e);
         setStatus(false);
       });
-  }, [update]);
+  }, [navigate, user, update]);
 
   return (
     <>

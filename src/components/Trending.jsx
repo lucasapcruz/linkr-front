@@ -24,7 +24,7 @@ export default function Trending() {
       <p className="title">trending</p>
       <hr />
       <HashtagList>
-        {hashtags?.map(h => <HashtagText>{`#${h.name}`}</HashtagText>)}
+        {hashtags?.map((h, i) => <HashtagText key={i}>{`#${h.name}`}</HashtagText>)}
       </HashtagList>
     </Div>
   );

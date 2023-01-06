@@ -1,4 +1,4 @@
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import Header from "../../components/Header";
 import MainContainer from "../../components/MainContainer";
 import PostItem from "../Timeline/Post/PostItem";
@@ -7,6 +7,7 @@ import { TailSpin } from 'react-loader-spinner'
 import { useEffect, useState } from "react";
 import { getPosts } from "../../services/api";
 import { useAuth } from "../../hooks/authContext";
+// import { useAuth } from "../../hooks/authContext";
 
 
 export default function HashtagPage() {
@@ -15,6 +16,7 @@ export default function HashtagPage() {
   const [posts, setPosts] = useState(null);
   const [status, setStatus] = useState(true);
   const [update, setUpdate] = useState(false);
+  const navigate = useNavigate();
   const { user } = useAuth();
 
   function updateTimeline() {
@@ -23,8 +25,9 @@ export default function HashtagPage() {
   }
 
   useEffect(() => {
+    if (!user?.token) navigate("/");
     updateTimeline()
-  }, [hashtag]);
+  }, [navigate, user, hashtag]);
   
   useEffect(() => {
     getPosts(hashtag)
@@ -33,13 +36,13 @@ export default function HashtagPage() {
         console.log(e);
         setStatus(false);
       });
-  }, [update]);
+  }, [update, hashtag]);
 
   return (
     <>
       <Header />
       <MainContainer pageTitle={`# ${hashtag}`}>
-      <TimelineStyle>
+        <TimelineStyle>
           <ul>
             {posts
               ? posts.length > 0

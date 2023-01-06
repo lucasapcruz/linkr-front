@@ -22,12 +22,11 @@ export default function Header() {
           name: undefined,
           pictureUrl: undefined,
         });
+        navigate("/sign-in");
       })
       .catch((res) => {
         console.log(res.response.data);
       });
-
-    navigate("/sign-in");
   }
 
   return (
@@ -88,6 +87,10 @@ const Nav = styled.nav`
     position: relative;
 
     transition: all 200ms ease;
+  }
+
+  img {
+    object-fit: cover;
   }
 
   svg {
