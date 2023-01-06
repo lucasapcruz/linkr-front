@@ -1,13 +1,13 @@
 import styled from "styled-components";
 import Trending from "./Trending";
 
-export default function MainContainer({ pageTitle, children }) {
+export default function MainContainer({ pageTitle, update, children }) {
   return (
     <>
       <Div>
         <p className="page-title">{pageTitle}</p>
         <div className="children">{children}</div>
-        <Trending className="trending" />
+        <Trending className="trending" update={update}/>
       </Div>
     </>
   );
