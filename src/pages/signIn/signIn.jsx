@@ -7,6 +7,7 @@ import { LargeLogo } from "../../components/Logo";
 import { useAuth } from "../../hooks/authContext";
 import { signIn } from "../../services/api";
 
+
 export default function SignIn() {
   const navigate = useNavigate();
   const { setUser } = useAuth();
@@ -30,7 +31,7 @@ export default function SignIn() {
       .then((res) => {
         localStorage.setItem("user", JSON.stringify(res.data));
         setUser({ ...res.data });
-        navigate("/");
+        navigate("/timeline");
       })
       .catch((err) => {
         console.log(err);
@@ -67,7 +68,9 @@ export default function SignIn() {
             required
           />
           <button type="submit" disabled={isLoading}>
-            Log In
+            {
+              isLoading ? "Logging in..." : "Log in"
+            }
           </button>
         </Form>
         <Link to={"/sign-up"}>First time? Create an account!</Link>
