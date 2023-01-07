@@ -12,7 +12,6 @@ export function updateUser () {
   const TOKEN = JSON.parse(localStorage.getItem("user"))?.token;
   api.defaults.headers["Authorization"] = `Bearer ${TOKEN}`;
 }
-
 export function postSignUp(body) {
   return api.post("/sign-up", body);
 }
@@ -25,6 +24,10 @@ export function logOut() {
   return api.delete("/users");
 }
 
+export function getUsers(value) {
+  return api.get("/user?name=" + value);
+}
+
 // POSTS ==========================
 export function postPost(body) {
   return api.post("/posts", body);
@@ -32,6 +35,11 @@ export function postPost(body) {
 
 export function getPosts(hashtag=null) {
   const route = hashtag? `/posts?hashtag=${hashtag}`: `/posts`;
+  return api.get(route);
+}
+
+export function getPostsUser(id) {
+  const route = "/posts/user/" + id;
   return api.get(route);
 }
 

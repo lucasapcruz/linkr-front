@@ -1,44 +1,54 @@
 import { useEffect, useState } from "react";
 import { useAuth } from "../../hooks/authContext";
-import { getPosts } from "../../services/api";
+import { getPosts, getPostsUser } from "../../services/api";
 import PostItem from "./Post/PostItem";
 import PublishItem from "./Publish/PublishItem";
 import { TimelineStyle } from "./TimelineStyle";
 import { TailSpin } from 'react-loader-spinner'
 import Header from "../../components/Header";
 import MainContainer from "../../components/MainContainer";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 
-export default function TimelinePage() {
+export default function TimelinePage({state}) {
   const [posts, setPosts] = useState(null);
   const [update, setUpdate] = useState(false);
   const [status, setStatus] = useState(true);
+  const [title, setTitle] = useState("timeline");
   const navigate = useNavigate();
   const { user } = useAuth();
+  const { id } = useParams();
 
   function updateTimeline() {
-    setUpdate(state => !state);
+    setUpdate(val => !val);
+    window.scrollTo(0, 0);
     setPosts(null);
   }
 
   useEffect(() => {
-    if (!user.token) navigate("/");
+    const isLoggedIn = JSON.parse(localStorage.getItem("user"))?.token;
+    if (!isLoggedIn) navigate("/");
 
-    getPosts()
-      .then(r => setPosts(r.data))
-      .catch(e => {
-        console.log(e);
-        setStatus(false);
-      });
-  }, [navigate, user, update]);
+    const refPosts = (state === "user") ? getPostsUser(id) : getPosts();
+    if (state) setTitle("");
+    
+    refPosts
+    .then(r => {
+      setPosts(r.data);
+      if (state) setTitle(r.data[0].name.split(" ")[0] + "'s posts");
+    })
+    .catch(e => {
+      console.log(e);
+      setStatus(false);
+    });
+  }, [navigate, update, id, state]);
 
   return (
     <>
-      <Header />
-      <MainContainer pageTitle={`timeline`} update={update}>
+      <Header updateTimeline={updateTimeline}/>
+      <MainContainer pageTitle={title} update={update}>
         <TimelineStyle>
           <ul>
-            <PublishItem image={user.pictureUrl} updateTimeline={updateTimeline} />
+            {!state ? <PublishItem image={user.pictureUrl} updateTimeline={updateTimeline} /> : null}
             {posts
               ? posts.length > 0
                 ? posts.map(e => <PostItem key={e.id} data={e} updateTimeline={updateTimeline} />)

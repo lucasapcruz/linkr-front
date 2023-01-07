@@ -16,7 +16,7 @@ export default function PostLink({data}) {
 }
 
 export const Style = styled.a`
-  width: 503px;
+  min-width: 380px;
   border: 1px solid #4D4D4D;
   border-radius: 11px;
   padding: 20px;
@@ -58,4 +58,8 @@ export const Style = styled.a`
     object-fit: cover;
   }
 
+  @media (max-width:611px) {
+    min-width: unset;
+  }
+  
 `;

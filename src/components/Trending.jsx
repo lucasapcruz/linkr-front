@@ -3,7 +3,7 @@ import styled from "styled-components";
 import { getTrendingHashtags } from "../services/api";
 import HashtagText from "./HashtagText";
 
-export default function Trending({update}) {
+export default function Trending({className, update}) {
 
   const [hashtags, setHashtags] = useState(null);
 
@@ -20,9 +20,8 @@ export default function Trending({update}) {
   }, [update]);
 
   return (
-    <Div>
+    <Div className={className}>
       <p className="title">trending</p>
-      <hr />
       <HashtagList>
         {hashtags?.map((h, i) => <HashtagText key={i}>{`#${h.name}`}</HashtagText>)}
       </HashtagList>
@@ -33,8 +32,6 @@ export default function Trending({update}) {
 const Div = styled.div`
   background: #171717;
   border-radius: 16px;
-  padding: 16px;
-
   width: 100%;
   height: min-content;
 
@@ -42,12 +39,17 @@ const Div = styled.div`
     font-family: "Oswald";
     font-weight: 700;
     font-size: 27px;
-
-    line-height: 61px;
+    padding: 16px;
+    border-bottom: 1px solid #484848;
   }
 `;
 
 const HashtagList = styled.ul`
   font-size: 19px;
   line-height: 23px;
+  padding: 16px;
+  padding-bottom: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
 `;

@@ -6,8 +6,9 @@ import { Link, useNavigate } from "react-router-dom";
 import { SmallLogo } from "./Logo";
 import * as Fa from "react-icons/fa";
 import { logOut } from "../services/api";
+import SearchBar from "./SearchBar";
 
-export default function Header() {
+export default function Header({updateTimeline}) {
   const navigate = useNavigate();
 
   const { user, setUser } = useAuth();
@@ -34,6 +35,9 @@ export default function Header() {
       <Link to={"/"}>
         <SmallLogo />
       </Link>
+
+      <SearchBar updateTimeline={updateTimeline}/>
+
       <div className="user" onClick={() => setDropDown(!dropDown)}>
         {dropDown ? <Fa.FaChevronUp /> : <Fa.FaChevronDown />}
 
@@ -59,10 +63,11 @@ const Nav = styled.nav`
   position: fixed;
   top: 0;
   left: 0;
+  box-shadow: 2px 2px 5px 5px rgba(0, 0, 0, 0.2);
 
   width: 100vw;
   height: 72px;
-  background: #000;
+  background-color: #151515;
 
   padding: 10px 28px;
 
@@ -87,16 +92,11 @@ const Nav = styled.nav`
     position: relative;
 
     transition: all 200ms ease;
+    cursor: pointer;
   }
 
   img {
     object-fit: cover;
-  }
-
-  svg {
-    &:hover {
-      cursor: pointer;
-    }
   }
 
   @media (max-width: 768px) {

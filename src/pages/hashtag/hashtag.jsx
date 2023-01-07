@@ -6,28 +6,25 @@ import { TimelineStyle } from "../Timeline/TimelineStyle";
 import { TailSpin } from 'react-loader-spinner'
 import { useEffect, useState } from "react";
 import { getPosts } from "../../services/api";
-import { useAuth } from "../../hooks/authContext";
-// import { useAuth } from "../../hooks/authContext";
-
 
 export default function HashtagPage() {
-
   const {hashtag} = useParams();
   const [posts, setPosts] = useState(null);
   const [status, setStatus] = useState(true);
   const [update, setUpdate] = useState(false);
   const navigate = useNavigate();
-  const { user } = useAuth();
 
   function updateTimeline() {
-    setUpdate(state => !state);
+    setUpdate(val => !val);
+    window.scrollTo(0, 0);
     setPosts(null);
   }
 
   useEffect(() => {
-    if (!user?.token) navigate("/");
+    const isLoggedIn = JSON.parse(localStorage.getItem("user"))?.token;
+    if (!isLoggedIn) navigate("/");
     updateTimeline()
-  }, [navigate, user, hashtag]);
+  }, [navigate, hashtag]);
   
   useEffect(() => {
     getPosts(hashtag)
@@ -40,7 +37,7 @@ export default function HashtagPage() {
 
   return (
     <>
-      <Header />
+      <Header updateTimeline={updateTimeline}/>
       <MainContainer pageTitle={`# ${hashtag}`}>
         <TimelineStyle>
           <ul>

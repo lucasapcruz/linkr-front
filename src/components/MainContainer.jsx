@@ -15,7 +15,7 @@ export default function MainContainer({ pageTitle, update, children }) {
 
 const Div = styled.div`
   display: grid;
-  grid-template-columns: repeat(5, 1fr);
+  grid-template-columns: 1fr 2fr 1fr 1fr;
   grid-auto-rows: auto 1fr;
   column-gap: 25px;
   justify-items: left;
@@ -28,12 +28,35 @@ const Div = styled.div`
   }
 
   .children {
-    grid-column-start: 2;
-    grid-column-end: 4;
+    grid-column: 2;
+    width: 100%;
+    /* grid-column-start: 2;
+    grid-column-end: 3; */
   }
 
   .trending {
     grid-row: 2;
-    grid-column: 4;
+    grid-column: 3;
+  }
+
+  @media (max-width:710px) {
+    grid-template-columns: 1fr 2fr 1fr;
+    
+    .trending {
+      display: none;
+    }
+  }
+
+  @media (max-width:611px) {
+    display: unset;
+
+    .page-title{
+      margin-top: 107px;
+      margin-left: 5vw;
+    }
+    
+    .trending {
+      display: none;
+    }
   }
 `;
