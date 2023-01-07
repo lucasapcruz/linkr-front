@@ -20,7 +20,7 @@ export const TimelineStyle = styled.div`
     flex-direction: column;
     gap: 32px;
     
-    width: 611px;
+    width: 100%;
     margin-bottom: 75px;
   }
 
@@ -30,9 +30,13 @@ export const TimelineStyle = styled.div`
     align-self: center;
   }
 
-  @media (max-width:611px) {
+  @media (max-width:611px) {    
     main, ul, li, a {
       width: 100%;
+    }
+
+    ul{
+      gap:4vw;
     }
 
     li {

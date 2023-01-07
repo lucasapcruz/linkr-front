@@ -3,7 +3,7 @@ import styled from "styled-components";
 import { getTrendingHashtags } from "../services/api";
 import HashtagText from "./HashtagText";
 
-export default function Trending({update}) {
+export default function Trending({className, update}) {
 
   const [hashtags, setHashtags] = useState(null);
 
@@ -20,7 +20,7 @@ export default function Trending({update}) {
   }, [update]);
 
   return (
-    <Div>
+    <Div className={className}>
       <p className="title">trending</p>
       <hr />
       <HashtagList>
