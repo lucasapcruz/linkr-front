@@ -38,7 +38,7 @@ export const TimelineStyle = styled.div`
     ul{
       gap:4vw;
     }
-    
+
     li {
       border-radius: 0;
     }
