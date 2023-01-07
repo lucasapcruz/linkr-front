@@ -3,6 +3,7 @@ import { PostStyle } from '../Post/PostStyle';
 
 export const PublishStyle = styled(PostStyle)`
   background-color: white;
+  box-shadow: 0px 2px 2px 2px rgba(0, 0, 0, 0.2);
   
   * {
     font-weight: 300;

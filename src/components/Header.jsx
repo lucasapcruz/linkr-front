@@ -63,6 +63,7 @@ const Nav = styled.nav`
   width: 100vw;
   height: 72px;
   background: #000;
+  box-shadow: 2px 2px 5px 5px rgba(0, 0, 0, 0.2);
 
   padding: 10px 28px;
 
