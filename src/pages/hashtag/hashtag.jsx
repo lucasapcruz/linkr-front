@@ -38,7 +38,7 @@ export default function HashtagPage() {
   return (
     <>
       <Header updateTimeline={updateTimeline}/>
-      <MainContainer pageTitle={`# ${hashtag}`}>
+      <MainContainer pageTitle={`# ${hashtag}`} updateTimeline={updateTimeline}>
         <TimelineStyle>
           <ul>
             {posts

@@ -1,18 +1,18 @@
 import styled from 'styled-components';
-import {DebounceInput} from 'react-debounce-input';
+import { DebounceInput } from 'react-debounce-input';
 import { useState } from 'react';
 import { getUsers } from '../services/api';
 import { useNavigate } from 'react-router-dom';
+import { AiOutlineSearch } from 'react-icons/ai';
 
-export default function SearchBar({updateTimeline}) {
+export default function SearchBar({updateTimeline, className}) {
   const [users, setUsers] = useState();
   const [search, setSearch] = useState();
   const navigate = useNavigate();
 
   function eventHandler(e) {
     const { value } = e.target;
-    console.log(value);
-    if (!value) return;
+    if (!value) return setUsers();
 
     getUsers(value)
     .then(r => setUsers(r.data))
@@ -30,8 +30,9 @@ export default function SearchBar({updateTimeline}) {
   }
 
   return (
-    <Style>
+    <Style className={className}>
       <DebounceInput placeholder="Search for people" minLength={3} debounceTimeout={300} onChange={eventHandler} value={search} />
+      <AiOutlineSearch className='search-icon'/>
       {users && <div className="result">
         {users.map(e => <div key={e.id} className="result-user" onClick={() => toUserPosts(e.id)}>
           <img src={e.imageUrl} alt="" />
@@ -57,11 +58,20 @@ export const Style = styled.div`
     border-radius: 8px;
     background-color: white;
     padding: 0 14px;
-    
+    padding-right: 45px;    
     
     &::placeholder {
       color: #C6C6C6;
     }
+  }
+
+  .search-icon {
+    position: absolute;
+    top: 10px;
+    right: 14px;
+    color: #C6C6C6;
+    width: 25px;
+    height: 25px;
   }
   
   .result {
@@ -90,6 +100,7 @@ export const Style = styled.div`
         border-radius: 85px;
         width: 40px;
         height: 40px;
+        object-fit: cover;
       }
     }
   }

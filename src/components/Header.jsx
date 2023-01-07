@@ -36,8 +36,7 @@ export default function Header({updateTimeline}) {
         <SmallLogo />
       </Link>
 
-      <SearchBar updateTimeline={updateTimeline}/>
-
+      <SearchBar className="searchnav" updateTimeline={updateTimeline}/>
       <div className="user" onClick={() => setDropDown(!dropDown)}>
         {dropDown ? <Fa.FaChevronUp /> : <Fa.FaChevronDown />}
 
@@ -100,7 +99,11 @@ const Nav = styled.nav`
     object-fit: cover;
   }
 
-  @media (max-width: 768px) {
+  @media (max-width: 611px) {
+    .searchnav {
+      display: none;
+    }
+
     .user {
       font-size: 24px;
     }

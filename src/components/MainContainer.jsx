@@ -1,10 +1,14 @@
 import styled from "styled-components";
+import SearchBar from "./SearchBar";
 import Trending from "./Trending";
 
-export default function MainContainer({ pageTitle, update, children }) {
+export default function MainContainer({ pageTitle, update, children, updateTimeline }) {
   return (
     <>
       <Div>
+        <div className="searchbar-wrapper">
+          <SearchBar className="searchtl" updateTimeline={updateTimeline}/>
+        </div>
         <p className="page-title">{pageTitle}</p>
         <div className="children">{children}</div>
         <Trending className="trending" update={update}/>
@@ -39,8 +43,12 @@ const Div = styled.div`
     grid-column: 3;
   }
 
+  .searchbar-wrapper {
+    display: none;
+  }
+
   @media (max-width:710px) {
-    grid-template-columns: 1fr 2fr 1fr;
+    grid-template-columns: 1fr 1fr 2fr 1fr;
     
     .trending {
       display: none;
@@ -50,11 +58,27 @@ const Div = styled.div`
   @media (max-width:611px) {
     display: unset;
 
+    .searchbar-wrapper {
+      margin-top: 84px;
+      margin-bottom: 30px;
+      display: block;
+      width: 100%;
+      padding: 0 16px;
+
+      .searchtl {
+        width: 100%;
+
+        .result {
+          position: initial;
+          margin-top: -20px;
+        }
+      }
+    }
+
     .page-title{
-      margin-top: 107px;
       margin-left: 5vw;
     }
-    
+
     .trending {
       display: none;
     }

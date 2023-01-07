@@ -45,7 +45,7 @@ export default function TimelinePage({state}) {
   return (
     <>
       <Header updateTimeline={updateTimeline}/>
-      <MainContainer pageTitle={title} update={update}>
+      <MainContainer pageTitle={title} update={update} updateTimeline={updateTimeline}>
         <TimelineStyle>
           <ul>
             {!state ? <PublishItem image={user.pictureUrl} updateTimeline={updateTimeline} /> : null}

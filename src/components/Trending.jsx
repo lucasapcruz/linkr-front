@@ -10,8 +10,7 @@ export default function Trending({className, update}) {
   useEffect(() => {
     getTrendingHashtags()
     .then(r => {
-      console.log(r.data)
-      setHashtags(r.data)
+      setHashtags(r.data);
     })
     .catch(e => {
       console.log(e);

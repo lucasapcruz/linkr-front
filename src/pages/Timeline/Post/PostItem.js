@@ -95,7 +95,7 @@ export default function PostItem({data, updateTimeline}) {
           <div className="delete" onClick={toogleModal}><IoTrash/></div>
         </IconContext.Provider>
       </div>}
-      <Modal 
+      {owner && <Modal 
         isOpen={modalIsOpen}
         className="modal"
         overlayClassName="overlay"
@@ -119,7 +119,7 @@ export default function PostItem({data, updateTimeline}) {
               </div>
             </>
         }
-      </Modal>
+      </Modal>}
       <img src={image_url} alt="" onClick={toUserPosts}/>
       <div className="content">
         <div className="name" onClick={toUserPosts}>{name}</div>
