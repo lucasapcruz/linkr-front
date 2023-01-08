@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useAuth } from "../../hooks/authContext";
-import { getPosts, getPostsUser } from "../../services/api";
+import { getLikes, getPosts, getPostsUser } from "../../services/api";
 import PostItem from "./Post/PostItem";
 import PublishItem from "./Publish/PublishItem";
 import { TimelineStyle } from "./TimelineStyle";

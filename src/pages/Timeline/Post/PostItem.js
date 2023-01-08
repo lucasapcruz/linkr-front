@@ -1,13 +1,14 @@
 import { useEffect, useRef, useState } from "react";
-import { deletePost, updatePost } from "../../../services/api";
+import { deletePost, postLike, getLikes, updatePost } from "../../../services/api";
 import PostLink from "./Link/PostLink";
-import { PostStyle } from "./PostStyle";
+import { LikeContainer, PostStyle } from "./PostStyle";
 import { RiPencilFill } from 'react-icons/ri';
 import { IoTrash } from 'react-icons/io5';
 import { IconContext } from "react-icons";
 import Modal from 'react-modal';
 import { TailSpin } from  'react-loader-spinner'
 import HashtagText from "../../../components/HashtagText";
+import { BsFillHeartFill } from "react-icons/bs";
 import { useNavigate } from "react-router-dom";
 
 export default function PostItem({data, updateTimeline}) {
@@ -19,9 +20,29 @@ export default function PostItem({data, updateTimeline}) {
   const [loading, setLoading] = useState(false);
   const [deleteLoading, setDeleteLoading] = useState(false);
   const [modalIsOpen, setModalIsOpen] = useState(false);
+  const [likesCounter, setLikesCounter] = useState(0);
+  const [userLiked, setUserLiked] = useState(false);
+  const [usersName, setUsersName] = useState("");
   const inputRef = useRef(null);
   const navigate = useNavigate();
   Modal.setAppElement('#root');
+
+  function getPostId(id) {
+    postLike(id)
+    .then((data) => {
+      console.log(data);
+    })
+
+    const likes = (parseInt(likesCounter));
+
+    if(userLiked) {
+      setUserLiked(false);
+      setLikesCounter(likes-1);
+    } else {
+      setUserLiked(true);
+      setLikesCounter(likes+1);
+    }
+  }
 
   function toogleEdit() {
     setEditing(editing => {
@@ -29,6 +50,28 @@ export default function PostItem({data, updateTimeline}) {
       return !editing;
     });
   }
+
+  useEffect(() => {
+    getLikes()
+    .then((data) => {
+      const postsId = data.data;
+      const { userId } = postsId.pop();
+
+      postsId.forEach((post, index) => {
+        if(post.postId === id) {
+          setLikesCounter(post.totalLikes);
+          if(post.usersId.includes(userId)) setUserLiked(true);
+        }
+
+        post.usersWhoLiked.map((userName) => {
+          if(userName !== name) {
+            setUsersName(userName);
+          }
+        });
+      });
+    })
+
+  }, []);
 
   useEffect(() => {
     if (editing) {
@@ -120,7 +163,37 @@ export default function PostItem({data, updateTimeline}) {
             </>
         }
       </Modal>}
-      <img src={image_url} alt="" onClick={toUserPosts}/>
+      
+      <LikeContainer >
+        <img src={image_url} alt="" onClick={toUserPosts}/>
+        {
+          userLiked && likesCounter > 2 ? 
+            <BsFillHeartFill class="btn btn-secondary" data-toggle="tooltip" 
+              data-placement="bottom" title={`Você, ${usersName} e outras ${likesCounter-2} pessoas`}
+                color="Crimson" onClick={() => getPostId(id)} />   
+          : userLiked && likesCounter > 1 ?
+            <BsFillHeartFill class="btn btn-secondary" data-toggle="tooltip" 
+              data-placement="bottom" title={`Você e ${usersName}`}
+                color="Crimson" onClick={() => getPostId(id)} /> 
+          : userLiked ?
+            <BsFillHeartFill class="btn btn-secondary" data-toggle="tooltip" 
+              data-placement="bottom" title={`Você`}
+                color="Crimson" onClick={() => getPostId(id)} /> 
+          : likesCounter > 1 ?
+            <BsFillHeartFill class="btn btn-secondary" data-toggle="tooltip" 
+              data-placement="bottom" title={`${usersName} e outra ${likesCounter-1} pessoa`}
+                onClick={() => getPostId(id)} /> 
+          : likesCounter == 1 ?
+            <BsFillHeartFill class="btn btn-secondary" data-toggle="tooltip" 
+                data-placement="bottom" title={`${usersName}`}
+                  onClick={() => getPostId(id)} /> 
+          :
+            <BsFillHeartFill class="btn btn-secondary" data-toggle="tooltip" 
+              data-placement="bottom" onClick={() => getPostId(id)} />           
+        }
+        <h3>{likesCounter} likes</h3>
+      </LikeContainer> 
+      
       <div className="content">
         <div className="name" onClick={toUserPosts}>{name}</div>
         {editing 
