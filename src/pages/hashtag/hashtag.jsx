@@ -6,12 +6,14 @@ import { TimelineStyle } from "../Timeline/TimelineStyle";
 import { TailSpin } from 'react-loader-spinner'
 import { useEffect, useState } from "react";
 import { getPosts } from "../../services/api";
+import { useAuth } from "../../hooks/authContext";
 
 export default function HashtagPage() {
   const {hashtag} = useParams();
   const [posts, setPosts] = useState(null);
   const [status, setStatus] = useState(true);
   const [update, setUpdate] = useState(false);
+  const { user } = useAuth();
   const navigate = useNavigate();
 
   function updateTimeline() {
@@ -43,7 +45,7 @@ export default function HashtagPage() {
           <ul>
             {posts
               ? posts.length > 0
-                ? posts.map(e => <PostItem key={e.id} data={e} updateTimeline={updateTimeline}/>)
+                ? posts.map(e => <PostItem key={e.id} data={e} userName={user.name} updateTimeline={updateTimeline}/>)
                 : <div className="status">There are no posts yet</div>
               : status
                 ? <TailSpin

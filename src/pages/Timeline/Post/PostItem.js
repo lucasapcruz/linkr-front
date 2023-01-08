@@ -11,8 +11,9 @@ import HashtagText from "../../../components/HashtagText";
 import { BsFillHeartFill } from "react-icons/bs";
 import { useNavigate } from "react-router-dom";
 
-export default function PostItem({data, updateTimeline}) {
+export default function PostItem({data, updateTimeline, userName}) {
   const {id, image_url, name, link, message, owner, user_id} = data;
+
   const [text, setText] = useState(message);
   const [currMessage, setCurrMessage] = useState(message);
   const [editing, setEditing] = useState(false);
@@ -28,20 +29,12 @@ export default function PostItem({data, updateTimeline}) {
   Modal.setAppElement('#root');
 
   function getPostId(id) {
-    postLike(id)
-    .then((data) => {
-      console.log(data);
-    })
-
-    const likes = (parseInt(likesCounter));
-
-    if(userLiked) {
-      setUserLiked(false);
-      setLikesCounter(likes-1);
-    } else {
-      setUserLiked(true);
-      setLikesCounter(likes+1);
-    }
+    postLike(id);
+    setUserLiked(liked => {
+      const value = liked ? -1 : 1;
+      setLikesCounter(l => l + value);
+      return !liked;
+    });
   }
 
   function toogleEdit() {
@@ -53,25 +46,29 @@ export default function PostItem({data, updateTimeline}) {
 
   useEffect(() => {
     getLikes()
-    .then((data) => {
-      const postsId = data.data;
-      const { userId } = postsId.pop();
+    .then(r => {
+      const likesData = r.data;
 
-      postsId.forEach((post, index) => {
-        if(post.postId === id) {
-          setLikesCounter(post.totalLikes);
-          if(post.usersId.includes(userId)) setUserLiked(true);
-        }
+      likesData.forEach(e => {
+        if (e.postId === id) {
+          const users = e.usersWhoLiked;
 
-        post.usersWhoLiked.map((userName) => {
-          if(userName !== name) {
-            setUsersName(userName);
+          setLikesCounter(users.length);
+          if (users.includes(userName)) {setUserLiked(true);}
+
+          for (let i = 0; i < users.length; i++) {
+            const n = users[i];
+            if (n !== userName) {
+              setUsersName(n);
+              break;
+            }
           }
-        });
+        }
       });
-    })
 
-  }, []);
+    });
+
+  }, [id, userName]);
 
   useEffect(() => {
     if (editing) {
@@ -151,7 +148,7 @@ export default function PostItem({data, updateTimeline}) {
               ariaLabel="tail-spin-loading"
               radius="1"
               wrapperStyle={{}}
-              wrapperClass=""
+              wrapperclassName=""
               visible={true}
             />
           : <>
@@ -168,27 +165,27 @@ export default function PostItem({data, updateTimeline}) {
         <img src={image_url} alt="" onClick={toUserPosts}/>
         {
           userLiked && likesCounter > 2 ? 
-            <BsFillHeartFill class="btn btn-secondary" data-toggle="tooltip" 
+            <BsFillHeartFill className="btn btn-secondary" data-toggle="tooltip" 
               data-placement="bottom" title={`Você, ${usersName} e outras ${likesCounter-2} pessoas`}
                 color="Crimson" onClick={() => getPostId(id)} />   
           : userLiked && likesCounter > 1 ?
-            <BsFillHeartFill class="btn btn-secondary" data-toggle="tooltip" 
+            <BsFillHeartFill className="btn btn-secondary" data-toggle="tooltip" 
               data-placement="bottom" title={`Você e ${usersName}`}
                 color="Crimson" onClick={() => getPostId(id)} /> 
           : userLiked ?
-            <BsFillHeartFill class="btn btn-secondary" data-toggle="tooltip" 
+            <BsFillHeartFill className="btn btn-secondary" data-toggle="tooltip" 
               data-placement="bottom" title={`Você`}
                 color="Crimson" onClick={() => getPostId(id)} /> 
           : likesCounter > 1 ?
-            <BsFillHeartFill class="btn btn-secondary" data-toggle="tooltip" 
+            <BsFillHeartFill className="btn btn-secondary" data-toggle="tooltip" 
               data-placement="bottom" title={`${usersName} e outra ${likesCounter-1} pessoa`}
                 onClick={() => getPostId(id)} /> 
-          : likesCounter == 1 ?
-            <BsFillHeartFill class="btn btn-secondary" data-toggle="tooltip" 
+          : likesCounter === 1 ?
+            <BsFillHeartFill className="btn btn-secondary" data-toggle="tooltip" 
                 data-placement="bottom" title={`${usersName}`}
                   onClick={() => getPostId(id)} /> 
           :
-            <BsFillHeartFill class="btn btn-secondary" data-toggle="tooltip" 
+            <BsFillHeartFill className="btn btn-secondary" data-toggle="tooltip" 
               data-placement="bottom" onClick={() => getPostId(id)} />           
         }
         <h3>{likesCounter} likes</h3>

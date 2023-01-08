@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useAuth } from "../../hooks/authContext";
-import { getLikes, getPosts, getPostsUser } from "../../services/api";
+import { getPosts, getPostsUser } from "../../services/api";
 import PostItem from "./Post/PostItem";
 import PublishItem from "./Publish/PublishItem";
 import { TimelineStyle } from "./TimelineStyle";
@@ -51,7 +51,7 @@ export default function TimelinePage({state}) {
             {!state ? <PublishItem image={user.pictureUrl} updateTimeline={updateTimeline} /> : null}
             {posts
               ? posts.length > 0
-                ? posts.map(e => <PostItem key={e.id} data={e} updateTimeline={updateTimeline} />)
+                ? posts.map(e => <PostItem key={e.id} data={e} userName={user.name} updateTimeline={updateTimeline} />)
                 : <div className="status">There are no posts yet</div>
               : status
                 ? <TailSpin

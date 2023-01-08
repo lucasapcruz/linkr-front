@@ -16,7 +16,7 @@ export default function HashtagText(props) {
     }
 
     return (
-        <ReactHashtag renderHashtag={(hashtag) => (
+        <ReactHashtag renderHashtag={hashtag => (
             <StyledHashtag onClick={() => toHashtagPosts(hashtag)}>
                 {hashtag}
             </StyledHashtag>
