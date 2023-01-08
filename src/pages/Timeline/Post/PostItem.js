@@ -8,9 +8,10 @@ import { IconContext } from "react-icons";
 import Modal from 'react-modal';
 import { TailSpin } from  'react-loader-spinner'
 import HashtagText from "../../../components/HashtagText";
+import { useNavigate } from "react-router-dom";
 
 export default function PostItem({data, updateTimeline}) {
-  const {id, image_url, name, link, message, owner} = data;
+  const {id, image_url, name, link, message, owner, user_id} = data;
   const [text, setText] = useState(message);
   const [currMessage, setCurrMessage] = useState(message);
   const [editing, setEditing] = useState(false);
@@ -19,6 +20,7 @@ export default function PostItem({data, updateTimeline}) {
   const [deleteLoading, setDeleteLoading] = useState(false);
   const [modalIsOpen, setModalIsOpen] = useState(false);
   const inputRef = useRef(null);
+  const navigate = useNavigate();
   Modal.setAppElement('#root');
 
   function toogleEdit() {
@@ -80,6 +82,11 @@ export default function PostItem({data, updateTimeline}) {
     })
   }
 
+  function toUserPosts() {
+    navigate("/user/" + user_id);
+    updateTimeline();
+  }
+
   return (
     <PostStyle>
       {owner && <div className="options">
@@ -88,7 +95,7 @@ export default function PostItem({data, updateTimeline}) {
           <div className="delete" onClick={toogleModal}><IoTrash/></div>
         </IconContext.Provider>
       </div>}
-      <Modal 
+      {owner && <Modal 
         isOpen={modalIsOpen}
         className="modal"
         overlayClassName="overlay"
@@ -112,10 +119,10 @@ export default function PostItem({data, updateTimeline}) {
               </div>
             </>
         }
-      </Modal>
-      <img src={image_url} alt=""/>
+      </Modal>}
+      <img src={image_url} alt="" onClick={toUserPosts}/>
       <div className="content">
-        <div className="name">{name}</div>
+        <div className="name" onClick={toUserPosts}>{name}</div>
         {editing 
           ? <textarea type="text" name="editmsg" id="editmsg" maxLength="1000" 
               value={text} onFocus={handleText} onChange={handleText} ref={inputRef}

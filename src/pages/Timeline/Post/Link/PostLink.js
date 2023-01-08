@@ -61,5 +61,4 @@ export const Style = styled.a`
   @media (max-width:611px) {
     min-width: unset;
   }
-
 `;

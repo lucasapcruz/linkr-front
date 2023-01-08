@@ -5,7 +5,7 @@ import Form from "../../components/Form";
 // import Logo, { StyledLogo } from "../../components/Logo";
 import { LargeLogo } from "../../components/Logo";
 import { useAuth } from "../../hooks/authContext";
-import { signIn } from "../../services/api";
+import { signIn, updateUser } from "../../services/api";
 
 
 export default function SignIn() {
@@ -32,6 +32,7 @@ export default function SignIn() {
         localStorage.setItem("user", JSON.stringify(res.data));
         setUser({ ...res.data });
         navigate("/timeline");
+        updateUser();
       })
       .catch((err) => {
         console.log(err);
