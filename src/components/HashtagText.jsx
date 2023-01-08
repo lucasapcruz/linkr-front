@@ -8,12 +8,16 @@ export default function HashtagText(props) {
 
     function getHashtagValue(hashtag) {
         const hashtagValue = hashtag.replace("#", "");
-        return hashtagValue
+        return hashtagValue;
+    }
+
+    function toHashtagPosts(hashtag) {
+        navigate("/hashtag/" + getHashtagValue(hashtag));
     }
 
     return (
         <ReactHashtag renderHashtag={(hashtag) => (
-            <StyledHashtag onClick={() => navigate(`/hashtag/${getHashtagValue(hashtag)}`)}>
+            <StyledHashtag onClick={() => toHashtagPosts(hashtag)}>
                 {hashtag}
             </StyledHashtag>
         )}>
@@ -24,5 +28,7 @@ export default function HashtagText(props) {
 
 const StyledHashtag = styled.span`
   cursor: pointer;
-  display: block;
+  color: white;
+  font-weight: bold;
+  width: fit-content;
 `

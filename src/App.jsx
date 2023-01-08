@@ -20,6 +20,7 @@ export default function App() {
           <Route path="/sign-up" element={<SignUp />} />
           <Route path="/timeline" element={<TimelinePage />}/>
           <Route path="/hashtag/:hashtag" element={<HashtagPage />} />
+          <Route path="/user/:id" element={<TimelinePage state={"user"}/>} />
         </Routes>
       </AuthProvider>
     </BrowserRouter>

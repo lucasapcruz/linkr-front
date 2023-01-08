@@ -31,6 +31,7 @@ export const PostStyle = styled.li`
     height: 50px;
     border-radius: 26.5px;
     object-fit: cover;
+    cursor: pointer;
   }
 
   .content {
@@ -42,6 +43,8 @@ export const PostStyle = styled.li`
     .name {
       font-size: 19px;
       color: white;
+      cursor: pointer;
+      width: fit-content;
     }
 
     .message {

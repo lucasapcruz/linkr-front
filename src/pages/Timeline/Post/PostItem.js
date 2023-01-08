@@ -9,9 +9,10 @@ import Modal from 'react-modal';
 import { TailSpin } from  'react-loader-spinner'
 import HashtagText from "../../../components/HashtagText";
 import { BsFillHeartFill } from "react-icons/bs";
+import { useNavigate } from "react-router-dom";
 
 export default function PostItem({data, updateTimeline}) {
-  const {id, image_url, name, link, message, owner} = data;
+  const {id, image_url, name, link, message, owner, user_id} = data;
   const [text, setText] = useState(message);
   const [currMessage, setCurrMessage] = useState(message);
   const [editing, setEditing] = useState(false);
@@ -23,6 +24,7 @@ export default function PostItem({data, updateTimeline}) {
   const [userLiked, setUserLiked] = useState(false);
   const [usersName, setUsersName] = useState("");
   const inputRef = useRef(null);
+  const navigate = useNavigate();
   Modal.setAppElement('#root');
 
   function getPostId(id) {
@@ -123,6 +125,11 @@ export default function PostItem({data, updateTimeline}) {
     })
   }
 
+  function toUserPosts() {
+    navigate("/user/" + user_id);
+    updateTimeline();
+  }
+
   return (
     <PostStyle>
       {owner && <div className="options">
@@ -130,9 +137,8 @@ export default function PostItem({data, updateTimeline}) {
           <div className="edit" onClick={toogleEdit}><RiPencilFill/></div>
           <div className="delete" onClick={toogleModal}><IoTrash/></div>
         </IconContext.Provider>
-      </div>}    
-
-      <Modal 
+      </div>}
+      {owner && <Modal 
         isOpen={modalIsOpen}
         className="modal"
         overlayClassName="overlay"
@@ -156,9 +162,10 @@ export default function PostItem({data, updateTimeline}) {
               </div>
             </>
         }
-      </Modal>
+      </Modal>}
+      
       <LikeContainer >
-        <img src={image_url} alt=""/>
+        <img src={image_url} alt="" onClick={toUserPosts}/>
         {
           userLiked && likesCounter > 2 ? 
             <BsFillHeartFill class="btn btn-secondary" data-toggle="tooltip" 
@@ -186,8 +193,9 @@ export default function PostItem({data, updateTimeline}) {
         }
         <h3>{likesCounter} likes</h3>
       </LikeContainer> 
+      
       <div className="content">
-        <div className="name">{name}</div>
+        <div className="name" onClick={toUserPosts}>{name}</div>
         {editing 
           ? <textarea type="text" name="editmsg" id="editmsg" maxLength="1000" 
               value={text} onFocus={handleText} onChange={handleText} ref={inputRef}
