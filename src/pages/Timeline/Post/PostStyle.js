@@ -72,11 +72,14 @@ export const LikeContainer = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
+  cursor: pointer;
+
   img {
     margin-bottom: 10px;
   }
+  
   h3 {
     margin-top: 3px;
-    font-size: 10px;
+    font-size: 11px;
   }
 `

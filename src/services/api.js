@@ -1,6 +1,6 @@
 import axios from "axios";
 
-//const URL = "http://localhost:5000/";
+// const URL = "http://localhost:5000/";
 const URL = "https://linkr-api-itfc.onrender.com/";
 
 export const api = axios.create({ baseURL: URL });
@@ -12,6 +12,7 @@ export function updateUser () {
   const TOKEN = JSON.parse(localStorage.getItem("user"))?.token;
   api.defaults.headers["Authorization"] = `Bearer ${TOKEN}`;
 }
+
 export function postSignUp(body) {
   return api.post("/sign-up", body);
 }
@@ -39,12 +40,10 @@ export function getPosts(hashtag=null) {
 }
 
 export function postLike(id) {
-  updateUser();
   return api.post("/likes", { postId: id });
 }
 
 export function getLikes() {
-  updateUser();
   return api.get("/likes");
 }
 
