@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useAuth } from "../../hooks/authContext";
-import { getPosts } from "../../services/api";
+import { getLikes, getPosts } from "../../services/api";
 import PostItem from "./Post/PostItem";
 import PublishItem from "./Publish/PublishItem";
 import { TimelineStyle } from "./TimelineStyle";
@@ -31,6 +31,7 @@ export default function TimelinePage() {
         setStatus(false);
       });
   }, [navigate, user, update]);
+ 
 
   return (
     <>

@@ -64,3 +64,16 @@ export const PostStyle = styled.li`
   }
   
 `;
+
+export const LikeContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  img {
+    margin-bottom: 10px;
+  }
+  h3 {
+    margin-top: 3px;
+    font-size: 10px;
+  }
+`
