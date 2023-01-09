@@ -51,6 +51,7 @@ export default function SignIn() {
       <div className="right">
         <Form onSubmit={formSubmit}>
           <input
+            autoComplete="off"
             type="email"
             placeholder="e-mail"
             name="email"
@@ -67,7 +68,9 @@ export default function SignIn() {
             value={form.password}
             onChange={formHandler}
             disabled={isLoading}
-            required
+            autoComplete="off"
+            required  
+
           />
           <button type="submit" disabled={isLoading}>
             {
