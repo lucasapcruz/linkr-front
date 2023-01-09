@@ -46,6 +46,7 @@ export default function SignIn() {
     <SignContainer>
       <div className="left">
         <LargeLogo />
+        <p className="slogan">save, share and discover the best links on the web</p>
       </div>
       <div className="right">
         <Form onSubmit={formSubmit}>
@@ -98,6 +99,9 @@ export const SignContainer = styled.div`
     background: #000;
     height: 100%;
     padding-left: 144px;
+    flex-direction: column;
+    justify-content: center;
+    align-items: start;
   }
 
   .right {
@@ -107,6 +111,7 @@ export const SignContainer = styled.div`
     display: flex;
     flex-direction: column;
     gap: 20px;
+    align-items: center;
   }
 
   a {
@@ -117,5 +122,43 @@ export const SignContainer = styled.div`
     text-decoration-line: underline;
 
     color: #ffffff;
+  }
+
+  .slogan{
+    font-family: 'Oswald';
+    font-style: normal;
+    font-weight: 700;
+    font-size: 43px;
+    line-height: 64px;
+    width: 442px;
+  }
+
+  @media (max-width:710px) {
+    display: block;
+
+    .left{
+      padding-left: unset;
+      flex-direction: column;
+      box-shadow: 2px 2px 5px 5px rgba(0, 0, 0, 0.2);
+      flex-direction: line;
+      justify-content: unset;
+      align-items: center;
+    }
+
+    .right{
+     padding: 12vw 5vw 0vw 5vw;
+    }
+
+    .slogan{
+      display: block;
+      font-family: 'Oswald';
+      font-style: normal;
+      font-weight: 700;
+      font-size: 23px;
+      line-height: 34px;
+      width: 237px;
+      margin: 0px auto;
+      margin-bottom: 29px;
+  }
   }
 `;
