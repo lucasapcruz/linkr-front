@@ -37,9 +37,8 @@ export default function SignUp() {
   return (
     <SignContainer>
       <div className="left">
-        <LargeLogo> 
-          <p>save, share and discover the best links on the web</p>
-        </LargeLogo>
+        <LargeLogo/> 
+        <p className="slogan">save, share and discover the best links on the web</p>
       </div>
       <div className="right">
         <Form onSubmit={handleSendForm}>

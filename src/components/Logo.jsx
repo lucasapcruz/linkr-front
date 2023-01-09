@@ -22,6 +22,12 @@ const Logo = styled.div`
 
 export const LargeLogo = styled(Logo)`
   font-size: 105px;
+
+  @media (max-width:710px) {
+    font-size: 76px;
+    line-height: 84px;
+    margin-top: 10px;
+  }
 `;
 
 export const SmallLogo = styled(Logo)`
