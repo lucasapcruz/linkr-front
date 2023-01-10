@@ -1,17 +1,23 @@
 import styled from "styled-components";
+import { FollowButton } from "./FollowButton";
 import SearchBar from "./SearchBar";
 import Trending from "./Trending";
 
-export default function MainContainer({ pageTitle, update, setUpdate, children, updateTimeline }) {
+export default function MainContainer({ pageTitle, update, setUpdate, children, following, toogleFollowing }) {
   return (
     <>
       <Div>
         <div className="searchbar-wrapper">
-          <SearchBar className="searchtl" setUpdate={setUpdate} updateTimeline={updateTimeline}/>
+          <SearchBar className="searchtl" setUpdate={setUpdate}/>
         </div>
         <p className="page-title">{pageTitle}</p>
+
+        {(following !== undefined) && <FollowButton onClick={toogleFollowing} following={following}>
+          {following ? "Unfollow" : "Follow"}
+        </FollowButton>}
         <div className="children">{children}</div>
         <Trending className="trending" update={update}/>
+
       </Div>
     </>
   );

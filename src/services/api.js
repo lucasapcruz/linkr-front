@@ -1,7 +1,7 @@
 import axios from "axios";
 
-// const URL = "http://localhost:5000/";
-const URL = "https://linkr-api-itfc.onrender.com/";
+const URL = "http://localhost:5000/";
+// const URL = "https://linkr-api-itfc.onrender.com/";
 
 export const api = axios.create({ baseURL: URL });
 
@@ -27,6 +27,11 @@ export function logOut() {
 
 export function getUsers(value) {
   return api.get("/user?name=" + value);
+}
+
+export function followUser(id) {
+  const route = "/follow/" + id;
+  return api.post(route);
 }
 
 // POSTS ==========================

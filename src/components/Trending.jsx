@@ -14,7 +14,6 @@ export default function Trending({className, update}) {
     })
     .catch(e => {
       console.log(e);
-      // setStatus("An error occured while trying to fetch the posts, please refresh the page");
     });
   }, [update]);
 
