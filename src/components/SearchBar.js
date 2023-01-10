@@ -5,7 +5,7 @@ import { getUsers } from '../services/api';
 import { useNavigate } from 'react-router-dom';
 import { AiOutlineSearch } from 'react-icons/ai';
 
-export default function SearchBar({updateTimeline, className}) {
+export default function SearchBar({updateTimeline, setUpdate, className}) {
   const [users, setUsers] = useState();
   const [search, setSearch] = useState();
   const navigate = useNavigate();
@@ -26,7 +26,8 @@ export default function SearchBar({updateTimeline, className}) {
     navigate("/user/" + id);
     setUsers();
     setSearch("");
-    updateTimeline();
+    // updateTimeline();
+    setUpdate(val => !val);
   }
 
   return (
