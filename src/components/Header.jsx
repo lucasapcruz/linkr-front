@@ -8,7 +8,7 @@ import * as Fa from "react-icons/fa";
 import { logOut } from "../services/api";
 import SearchBar from "./SearchBar";
 
-export default function Header({updateTimeline}) {
+export default function Header({updateTimeline, setUpdate}) {
   const navigate = useNavigate();
 
   const { user, setUser } = useAuth();
@@ -36,7 +36,7 @@ export default function Header({updateTimeline}) {
         <SmallLogo />
       </Link>
 
-      <SearchBar className="searchnav" updateTimeline={updateTimeline}/>
+      <SearchBar className="searchnav" setUpdate={setUpdate} updateTimeline={updateTimeline}/>
       <div className="user" onClick={() => setDropDown(!dropDown)}>
         {dropDown ? <Fa.FaChevronUp /> : <Fa.FaChevronDown />}
 

@@ -2,12 +2,12 @@ import styled from "styled-components";
 import SearchBar from "./SearchBar";
 import Trending from "./Trending";
 
-export default function MainContainer({ pageTitle, update, children, updateTimeline }) {
+export default function MainContainer({ pageTitle, update, setUpdate, children, updateTimeline }) {
   return (
     <>
       <Div>
         <div className="searchbar-wrapper">
-          <SearchBar className="searchtl" updateTimeline={updateTimeline}/>
+          <SearchBar className="searchtl" setUpdate={setUpdate} updateTimeline={updateTimeline}/>
         </div>
         <p className="page-title">{pageTitle}</p>
         <div className="children">{children}</div>
