@@ -27,7 +27,7 @@ const UserStyles = createGlobalStyle`
       width: 112px;
       height: 31px;
 
-      background: #1877F2;
+      background-color: #1877F2;
       border-radius: 5px;
       text-align: center;
 

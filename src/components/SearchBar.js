@@ -5,7 +5,7 @@ import { getUsers } from '../services/api';
 import { useNavigate } from 'react-router-dom';
 import { AiOutlineSearch } from 'react-icons/ai';
 
-export default function SearchBar({updateTimeline, setUpdate, className}) {
+export default function SearchBar({setUpdate, className}) {
   const [users, setUsers] = useState();
   const [search, setSearch] = useState();
   const navigate = useNavigate();
@@ -26,7 +26,6 @@ export default function SearchBar({updateTimeline, setUpdate, className}) {
     navigate("/user/" + id);
     setUsers();
     setSearch("");
-    // updateTimeline();
     setUpdate(val => !val);
   }
 
@@ -37,7 +36,7 @@ export default function SearchBar({updateTimeline, setUpdate, className}) {
       {users && <div className="result">
         {users.map(e => <div key={e.id} className="result-user" onClick={() => toUserPosts(e.id)}>
           <img src={e.imageUrl} alt="" />
-          <span>{e.name}</span>
+          <span>{e.name} {e.following && <span className="follow">• following</span>}</span>
         </div>)}
       </div>}
     </Style>
@@ -47,10 +46,15 @@ export default function SearchBar({updateTimeline, setUpdate, className}) {
 export const Style = styled.div`
   position: relative;
   width: 40%;
+
   * {
     font-family: 'Lato';
     font-weight: 400;
     font-size: 19px;
+  }
+
+  .follow {
+    color: #C5C5C5;
   }
 
   input {

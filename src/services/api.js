@@ -29,6 +29,11 @@ export function getUsers(value) {
   return api.get("/user?name=" + value);
 }
 
+export function followUser(id) {
+  const route = "/follow/" + id;
+  return api.post(route);
+}
+
 // POSTS ==========================
 export function postPost(body) {
   return api.post("/posts", body);

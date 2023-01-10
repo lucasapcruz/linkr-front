@@ -4,21 +4,29 @@ import MainContainer from "../../components/MainContainer";
 import { useEffect, useState } from "react";
 import { useAuth } from "../../hooks/authContext";
 import Timeline from "../../components/Timeline";
+import { getPosts } from "../../services/api";
 
-export default function HashtagPage({state}) {
+export default function HashtagPage() {
   const {hashtag} = useParams();
   const [status, setStatus] = useState(true);
   const [update, setUpdate] = useState(false);
+  const [posts, setPosts] = useState(null);
   const { user } = useAuth();
   const navigate = useNavigate();
   const [title, setTitle] = useState(`# ${hashtag}`);
   const { id } = useParams();
 
   useEffect(() => {
-    const isLoggedIn = JSON.parse(localStorage.getItem("user"))?.token;
-    if (!isLoggedIn) navigate("/");
+    getPosts(hashtag)
+    .then(r => setPosts(r.data.posts))
+    .catch(e => {
+      console.log(e);
+      setStatus(false);
+    });
+
+    setTitle(`# ${hashtag}`);
     setUpdate(val => !val);
-  }, [navigate, hashtag]);
+  }, [hashtag]);
   
   return (
     <>
@@ -30,11 +38,12 @@ export default function HashtagPage({state}) {
             update={update}
             setTitle={setTitle} 
             id={id} 
-            state={state} 
             status={status} 
             setStatus={setStatus}
             publishEnabled={false}
             hashtag={hashtag}
+            posts={posts}
+            setPosts={setPosts}
             />
       </MainContainer>
     </>
