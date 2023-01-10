@@ -6,7 +6,7 @@ import { TimelineStyle } from "../pages/Timeline/TimelineStyle";
 import PostItem from "../pages/Timeline/Post/PostItem";
 import PublishItem from "../pages/Timeline/Publish/PublishItem";
 
-export default function Timeline({ user, navigate, update, setTitle, id, state, status, setStatus, publishEnabled }) {
+export default function Timeline({ user, navigate, update, setTitle, id, state, status, setStatus, publishEnabled, hashtag }) {
   const [posts, setPosts] = useState(null);
   const [processUpdate, setProcessUpdate] = useState(false)
 
@@ -24,10 +24,10 @@ export default function Timeline({ user, navigate, update, setTitle, id, state, 
     const isLoggedIn = JSON.parse(localStorage.getItem("user"))?.token;
     if (!isLoggedIn) navigate("/");
 
-    const refPosts = (state === "user") ? getPostsUser(id) : getPosts();
-    if (state) setTitle("");
-
-    refPosts
+    if(!hashtag){
+        const refPosts = (state === "user") ? getPostsUser(id) : getPosts();
+        if (state) setTitle("");
+        refPosts
       .then(r => {
         setPosts(r.data);
         if (state) setTitle(r.data[0].name.split(" ")[0] + "'s posts");
@@ -36,7 +36,16 @@ export default function Timeline({ user, navigate, update, setTitle, id, state, 
         console.log(e);
         setStatus(false);
       });
-  }, [navigate, processUpdate, id, state]);
+    }else{
+        getPosts(hashtag)
+        .then(r => setPosts(r.data))
+        .catch(e => {
+        console.log(e);
+        setStatus(false);
+      });
+    }
+
+  }, [navigate, processUpdate, id, state, hashtag]);
 
   return (
     <>

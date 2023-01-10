@@ -27,6 +27,7 @@ export default function TimelinePage({ state }) {
             status={status} 
             setStatus={setStatus}
             publishEnabled={true}
+            hashtag={null}
             />
       </MainContainer>
     </>
