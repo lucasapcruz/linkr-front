@@ -1,13 +1,33 @@
 import styled from "styled-components";
 
 export const PostStyle = styled.li`
+  background-color: darkgreen;
+  background-color: #1e1e1e;
   font-family: "Lato", sans-serif;
-  background-color: #171717;
-  display: flex;
-  gap: 16px;
-  padding: 20px;
   border-radius: 16px;
-  position: relative;
+
+  .repost-text {
+    font-weight: 400;
+    font-size: 11px;
+    padding: 11px;
+
+    display: flex;
+    align-items: center;
+    gap: 8px;
+
+    .icon {
+      font-size: 16px;
+    }
+  }
+
+  .post-item {
+    background-color: #171717;
+    display: flex;
+    gap: 16px;
+    padding: 20px;
+    border-radius: 16px;
+    position: relative;
+  }
 
   * {
     font-family: "Lato", sans-serif;
@@ -100,5 +120,3 @@ export const PostSidebar = styled.div`
     font-size: 11px;
   }
 `;
-
-export const RepostDiv = styled.div``;

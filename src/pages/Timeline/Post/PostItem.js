@@ -4,6 +4,7 @@ import {
   postLike,
   getLikes,
   updatePost,
+  repost,
 } from "../../../services/api";
 import PostLink from "./Link/PostLink";
 import { PostSidebar, PostStyle, RepostDiv } from "./PostStyle";
@@ -52,7 +53,7 @@ export default function PostItem({ data, updateTimeline, userName }) {
     });
   }
 
-  function toogleEdit() {
+  function toggleEdit() {
     setEditing((editing) => {
       if (editing) setText(currMessage);
       return !editing;
@@ -99,7 +100,7 @@ export default function PostItem({ data, updateTimeline, userName }) {
   }
 
   function keyPressHandler(e) {
-    if (e.key === "Escape") toogleEdit();
+    if (e.key === "Escape") toggleEdit();
     if (e.key === "Enter") {
       e.target.disabled = true;
       setLoading(true);
@@ -119,7 +120,7 @@ export default function PostItem({ data, updateTimeline, userName }) {
     }
   }
 
-  function toogleModal() {
+  function toggleModal() {
     setModalIsOpen((state) => !state);
   }
 
@@ -127,11 +128,11 @@ export default function PostItem({ data, updateTimeline, userName }) {
     setDeleteLoading(true);
     deletePost(id)
       .then(() => {
-        toogleModal();
+        toggleModal();
         updateTimeline();
       })
       .catch((err) => {
-        toogleModal();
+        toggleModal();
         window.alert("Não foi possível excluir o post.");
       });
   }
@@ -141,7 +142,7 @@ export default function PostItem({ data, updateTimeline, userName }) {
     updateTimeline();
   }
 
-  function confirmRepost() {
+  function confirmRepost(id) {
     Swal.fire({
       title: "Do you want to re-post this link?",
       showCancelButton: true,
@@ -156,148 +157,163 @@ export default function PostItem({ data, updateTimeline, userName }) {
       buttonsStyling: false,
     }).then((result) => {
       if (result.isConfirmed) {
-        Swal.fire("Deleted!", "Your file has been deleted.", "success");
+        sharePost(id);
       }
     });
   }
 
+  function sharePost(id) {
+    repost(id);
+  }
+
   return (
     <PostStyle>
-      {owner && (
-        <div className="options">
-          <IconContext.Provider value={{ size: "20px" }}>
-            <div className="edit" onClick={toogleEdit}>
-              <RiPencilFill />
-            </div>
-            <div className="delete" onClick={toogleModal}>
-              <IoTrash />
-            </div>
-          </IconContext.Provider>
-        </div>
-      )}
-      {owner && (
-        <Modal
-          isOpen={modalIsOpen}
-          className="modal"
-          overlayClassName="overlay"
-        >
-          {deleteLoading ? (
-            <TailSpin
-              height="80"
-              width="80"
-              color="white"
-              ariaLabel="tail-spin-loading"
-              radius="1"
-              wrapperStyle={{}}
-              wrapperclassName=""
-              visible={true}
-            />
-          ) : (
-            <>
-              <div className="title">
-                Are you sure you want to delete this post?
-              </div>
-              <div className="buttons">
-                <button className="cancel" onClick={toogleModal}>
-                  No, go back
-                </button>
-                <button className="ok" onClick={deleteHandler}>
-                  Yes, delete it
-                </button>
-              </div>
-            </>
-          )}
-        </Modal>
+      {data.shareInfo.sharerId ? (
+        <p className="repost-text">
+          <Fa.FaRetweet className="icon" /> Re-posted by{" "}
+          {data.shareInfo.sharerName}
+        </p>
+      ) : (
+        ""
       )}
 
-      <PostSidebar>
-        <img src={image_url} alt="" onClick={toUserPosts} />
-        <div className="post-action-list">
-          <div className="action">
-            {userLiked && likesCounter > 2 ? (
-              <BsFillHeartFill
-                className="btn btn-secondary"
-                data-toggle="tooltip"
-                data-placement="bottom"
-                title={`Você, ${usersName} e outras ${
-                  likesCounter - 2
-                } pessoas`}
-                color="Crimson"
-                onClick={() => getPostId(id)}
-              />
-            ) : userLiked && likesCounter > 1 ? (
-              <BsFillHeartFill
-                className="btn btn-secondary"
-                data-toggle="tooltip"
-                data-placement="bottom"
-                title={`Você e ${usersName}`}
-                color="Crimson"
-                onClick={() => getPostId(id)}
-              />
-            ) : userLiked ? (
-              <BsFillHeartFill
-                className="btn btn-secondary"
-                data-toggle="tooltip"
-                data-placement="bottom"
-                title={`Você`}
-                color="Crimson"
-                onClick={() => getPostId(id)}
-              />
-            ) : likesCounter > 1 ? (
-              <BsFillHeartFill
-                className="btn btn-secondary"
-                data-toggle="tooltip"
-                data-placement="bottom"
-                title={`${usersName} e outra ${likesCounter - 1} pessoa`}
-                onClick={() => getPostId(id)}
-              />
-            ) : likesCounter === 1 ? (
-              <BsFillHeartFill
-                className="btn btn-secondary"
-                data-toggle="tooltip"
-                data-placement="bottom"
-                title={`${usersName}`}
-                onClick={() => getPostId(id)}
-              />
-            ) : (
-              <BsFillHeartFill
-                className="btn btn-secondary"
-                data-toggle="tooltip"
-                data-placement="bottom"
-                onClick={() => getPostId(id)}
-              />
-            )}
-            <p>{likesCounter} likes</p>
-          </div>
-          <div className="action" onClick={confirmRepost}>
-            <Fa.FaRetweet />
-            <p>{data.shareInfo.shareCount} re-post</p>
-          </div>
-        </div>
-      </PostSidebar>
-
-      <div className="content">
-        <div className="name" onClick={toUserPosts}>
-          {name}
-        </div>
-        {editing ? (
-          <textarea
-            type="text"
-            name="editmsg"
-            id="editmsg"
-            maxLength="1000"
-            value={text}
-            onFocus={handleText}
-            onChange={handleText}
-            ref={inputRef}
-            onKeyDown={keyPressHandler}
-          />
-        ) : (
-          <div className="message">
-            <HashtagText>{currMessage}</HashtagText>
+      <div className="post-item">
+        {owner && (
+          <div className="options">
+            <IconContext.Provider value={{ size: "20px" }}>
+              <div className="edit" onClick={toggleEdit}>
+                <RiPencilFill />
+              </div>
+              <div className="delete" onClick={toggleModal}>
+                <IoTrash />
+              </div>
+            </IconContext.Provider>
           </div>
         )}
-        {link ? <PostLink data={link} /> : null}
+        {owner && (
+          <Modal
+            isOpen={modalIsOpen}
+            className="modal"
+            overlayClassName="overlay"
+          >
+            {deleteLoading ? (
+              <TailSpin
+                height="80"
+                width="80"
+                color="white"
+                ariaLabel="tail-spin-loading"
+                radius="1"
+                wrapperStyle={{}}
+                wrapperclassName=""
+                visible={true}
+              />
+            ) : (
+              <>
+                <div className="title">
+                  Are you sure you want to delete this post?
+                </div>
+                <div className="buttons">
+                  <button className="cancel" onClick={toggleModal}>
+                    No, go back
+                  </button>
+                  <button className="ok" onClick={deleteHandler}>
+                    Yes, delete it
+                  </button>
+                </div>
+              </>
+            )}
+          </Modal>
+        )}
+
+        <PostSidebar>
+          <img src={image_url} alt="" onClick={toUserPosts} />
+          <div className="post-action-list">
+            <div className="action">
+              {userLiked && likesCounter > 2 ? (
+                <BsFillHeartFill
+                  className="btn btn-secondary"
+                  data-toggle="tooltip"
+                  data-placement="bottom"
+                  title={`Você, ${usersName} e outras ${
+                    likesCounter - 2
+                  } pessoas`}
+                  color="Crimson"
+                  onClick={() => getPostId(id)}
+                />
+              ) : userLiked && likesCounter > 1 ? (
+                <BsFillHeartFill
+                  className="btn btn-secondary"
+                  data-toggle="tooltip"
+                  data-placement="bottom"
+                  title={`Você e ${usersName}`}
+                  color="Crimson"
+                  onClick={() => getPostId(id)}
+                />
+              ) : userLiked ? (
+                <BsFillHeartFill
+                  className="btn btn-secondary"
+                  data-toggle="tooltip"
+                  data-placement="bottom"
+                  title={`Você`}
+                  color="Crimson"
+                  onClick={() => getPostId(id)}
+                />
+              ) : likesCounter > 1 ? (
+                <BsFillHeartFill
+                  className="btn btn-secondary"
+                  data-toggle="tooltip"
+                  data-placement="bottom"
+                  title={`${usersName} e outra ${likesCounter - 1} pessoa`}
+                  onClick={() => getPostId(id)}
+                />
+              ) : likesCounter === 1 ? (
+                <BsFillHeartFill
+                  className="btn btn-secondary"
+                  data-toggle="tooltip"
+                  data-placement="bottom"
+                  title={`${usersName}`}
+                  onClick={() => getPostId(id)}
+                />
+              ) : (
+                <BsFillHeartFill
+                  className="btn btn-secondary"
+                  data-toggle="tooltip"
+                  data-placement="bottom"
+                  onClick={() => getPostId(id)}
+                />
+              )}
+              <p>{likesCounter} likes</p>
+            </div>
+            <div className="action" onClick={() => confirmRepost(id)}>
+              <Fa.FaRetweet />
+              <p>{data.shareInfo.shareCount} re-post</p>
+            </div>
+          </div>
+        </PostSidebar>
+
+        <div className="content">
+          <div className="name" onClick={toUserPosts}>
+            {name}
+          </div>
+          {editing ? (
+            <textarea
+              type="text"
+              name="editmsg"
+              id="editmsg"
+              maxLength="1000"
+              value={text}
+              onFocus={handleText}
+              onChange={handleText}
+              ref={inputRef}
+              onKeyDown={keyPressHandler}
+            />
+          ) : (
+            <div className="message">
+              <HashtagText>{currMessage}</HashtagText>
+            </div>
+          )}
+          {link ? <PostLink data={link} /> : null}
+        </div>
       </div>
     </PostStyle>
   );
