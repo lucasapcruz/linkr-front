@@ -7,7 +7,7 @@ import {
   repost,
 } from "../../../services/api";
 import PostLink from "./Link/PostLink";
-import { PostSidebar, PostStyle, RepostDiv } from "./PostStyle";
+import { PostSidebar, PostStyle } from "./PostStyle";
 
 import { RiPencilFill } from "react-icons/ri";
 import { IoTrash } from "react-icons/io5";
@@ -22,7 +22,8 @@ import { useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
 
 export default function PostItem({ data, updateTimeline, userName }) {
-  const { id, image_url, name, link, message, owner, user_id } = data;
+  const { id, image_url, name, link, message, owner, user_id, shareInfo } =
+    data;
 
   const [text, setText] = useState(message);
   const [currMessage, setCurrMessage] = useState(message);
@@ -37,12 +38,6 @@ export default function PostItem({ data, updateTimeline, userName }) {
   const inputRef = useRef(null);
   const navigate = useNavigate();
   Modal.setAppElement("#root");
-
-  data.shareInfo = {
-    sharerId: 1,
-    shareCount: Math.floor(Math.random() * 13),
-    sharerName: "Julia",
-  };
 
   function getPostId(id) {
     postLike(id);
@@ -168,15 +163,14 @@ export default function PostItem({ data, updateTimeline, userName }) {
 
   return (
     <PostStyle>
-      {data.shareInfo.sharerId ? (
+      {shareInfo.sharerId ? (
         <p className="repost-text">
-          <Fa.FaRetweet className="icon" /> Re-posted by{" "}
-          {data.shareInfo.sharerName}
+          <Fa.FaRetweet className="icon" />
+          Re-posted by {shareInfo.sharerName}
         </p>
       ) : (
         ""
       )}
-
       <div className="post-item">
         {owner && (
           <div className="options">
@@ -286,7 +280,7 @@ export default function PostItem({ data, updateTimeline, userName }) {
             </div>
             <div className="action" onClick={() => confirmRepost(id)}>
               <Fa.FaRetweet />
-              <p>{data.shareInfo.shareCount} re-post</p>
+              <p>{shareInfo.shareCount} re-post</p>
             </div>
           </div>
         </PostSidebar>
