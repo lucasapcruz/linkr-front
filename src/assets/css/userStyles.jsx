@@ -124,6 +124,45 @@ const UserStyles = createGlobalStyle`
         border-radius: 5px;
       }
     }
+
+    .swal2-container {
+      .swal2-actions {
+        gap: 20px;
+
+      .order-1 {order: 1;}
+      .order-2 {order: 2;}
+      }
+
+      .cancel {
+        color: #1877F2;
+        background-color: white;
+        
+      }
+
+      .pop-up {
+        background-color: #333333;
+        width: 100%;
+        max-width: 597px;
+
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+
+        border-radius: 20px;
+      }
+
+      .title {
+        font-family: 'Lato';
+        font-weight: 700;
+        font-size: 29px;
+        text-align: center;
+
+        color: #FFFFFF;
+
+        max-width: 299px;
+        justify-self: center;
+      }
+    }
 `;
 
 export default UserStyles;

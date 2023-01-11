@@ -1,7 +1,7 @@
-import styled from 'styled-components';
+import styled from "styled-components";
 
 export const PostStyle = styled.li`
-  font-family: 'Lato', sans-serif;
+  font-family: "Lato", sans-serif;
   background-color: #171717;
   display: flex;
   gap: 16px;
@@ -10,7 +10,7 @@ export const PostStyle = styled.li`
   position: relative;
 
   * {
-    font-family: 'Lato', sans-serif;
+    font-family: "Lato", sans-serif;
   }
 
   .options {
@@ -20,7 +20,7 @@ export const PostStyle = styled.li`
 
     display: flex;
     gap: 8px;
-    
+
     * {
       cursor: pointer;
     }
@@ -49,7 +49,7 @@ export const PostStyle = styled.li`
 
     .message {
       font-size: 17px;
-      color: #B7B7B7;
+      color: #b7b7b7;
       margin-bottom: 8px;
       word-break: break-all;
     }
@@ -58,28 +58,47 @@ export const PostStyle = styled.li`
       font-size: 14px;
       outline: 0;
       resize: none;
-      color: #4C4C4C;
+      color: #4c4c4c;
       background-color: white;
       border-radius: 7px;
       overflow: hidden;
       padding: 3px 10px 7px;
     }
   }
-  
 `;
 
-export const LikeContainer = styled.div`
+export const PostSidebar = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
   cursor: pointer;
 
-  img {
-    margin-bottom: 10px;
+  .post-action-list,
+  .action {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
   }
-  
-  h3 {
-    margin-top: 3px;
+
+  .post-action-list {
+    gap: 18px;
+  }
+
+  .action {
+    gap: 5px;
+  }
+
+  img {
+    margin-bottom: 18px;
+  }
+
+  p {
+    font-family: "Lato";
+    font-style: normal;
+    font-size: 11px;
+    text-align: center;
     font-size: 11px;
   }
-`
+`;
+
+export const RepostDiv = styled.div``;
