@@ -8,7 +8,7 @@ export const api = axios.create({ baseURL: URL });
 const TOKEN = JSON.parse(localStorage.getItem("user"))?.token;
 api.defaults.headers["Authorization"] = `Bearer ${TOKEN}`;
 
-export function updateUser () {
+export function updateUser() {
   const TOKEN = JSON.parse(localStorage.getItem("user"))?.token;
   api.defaults.headers["Authorization"] = `Bearer ${TOKEN}`;
 }
@@ -39,8 +39,8 @@ export function postPost(body) {
   return api.post("/posts", body);
 }
 
-export function getPosts(hashtag=null) {
-  const route = hashtag? `/posts?hashtag=${hashtag}`: `/posts`;
+export function getPosts(hashtag = null) {
+  const route = hashtag ? `/posts?hashtag=${hashtag}` : `/posts`;
   return api.get(route);
 }
 
@@ -65,7 +65,12 @@ export function deletePost(id) {
   return api.delete("/posts/" + id);
 }
 
-// HASHTAGS ========================== 
-export function getTrendingHashtags(){
-  return api.get("/hashtags")
+export function repost(id) {
+  console.log(id);
+  // return api.post(`/share/${id}`);
+}
+
+// HASHTAGS ==========================
+export function getTrendingHashtags() {
+  return api.get("/hashtags");
 }

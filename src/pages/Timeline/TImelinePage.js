@@ -18,51 +18,58 @@ export default function TimelinePage({ state }) {
   const { id } = useParams();
 
   useEffect(() => {
-    const refGetPosts = (state === "user") ? getPostsUser(id) : getPosts();
+    const refGetPosts = state === "user" ? getPostsUser(id) : getPosts();
     setTitle(state ? "" : "timeline");
 
     refGetPosts
-    .then(r => {
-      setPosts(r.data.posts);
-      if (state) {
-        setTitle(r.data.name.split(" ")[0] + "'s posts");
-        setFollowing(r.data.following);
-      } else {
-        setUser(u => ({...u, following: r.data.localFollowing}));
-      }
-    })
-    .catch(e => {
-      console.log(e);
-      setStatus(false);
-    });
-  }, [id, state, setUser])
+      .then((r) => {
+        setPosts(r.data.posts);
+        if (state) {
+          setTitle(r.data.name.split(" ")[0] + "'s posts");
+          setFollowing(r.data.following);
+        } else {
+          setUser((u) => ({ ...u, following: r.data.localFollowing }));
+        }
+      })
+      .catch((e) => {
+        console.log(e);
+        setStatus(false);
+      });
+  }, [id, state, setUser]);
 
   function toogleFollowing(e) {
     e.target.disabled = true;
     followUser(id)
-    .then(r => {
-      e.target.disabled = false;
-      setFollowing(v => !v);
-    })
-    .catch(err => {
-      console.log(err);
-      e.target.disabled = false;
-      window.alert("Não foi possível executar a operação");
-    });
+      .then((r) => {
+        e.target.disabled = false;
+        setFollowing((v) => !v);
+      })
+      .catch((err) => {
+        console.log(err);
+        e.target.disabled = false;
+        window.alert("Não foi possível executar a operação");
+      });
   }
 
   return (
     <>
-      <Header setUpdate={setUpdate}/>
-      <MainContainer pageTitle={title} update={update} setUpdate={setUpdate} state={state} following={following} toogleFollowing={toogleFollowing}>
-        <Timeline 
-          user={user} 
-          navigate={navigate} 
+      <Header setUpdate={setUpdate} />
+      <MainContainer
+        pageTitle={title}
+        update={update}
+        setUpdate={setUpdate}
+        state={state}
+        following={following}
+        toogleFollowing={toogleFollowing}
+      >
+        <Timeline
+          user={user}
+          navigate={navigate}
           update={update}
-          setTitle={setTitle} 
-          id={id} 
-          state={state} 
-          status={status} 
+          setTitle={setTitle}
+          id={id}
+          state={state}
+          status={status}
           setStatus={setStatus}
           publishEnabled={true}
           hashtag={null}
