@@ -24,7 +24,6 @@ export default function TimelinePage({ state }) {
     refGetPosts
       .then((r) => {
         setPosts(r.data.posts);
-        console.log(r.data);
         if (state) {
           setTitle(r.data.name.split(" ")[0] + "'s posts");
           setFollowing(r.data.following);

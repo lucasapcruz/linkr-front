@@ -20,10 +20,14 @@ import HashtagText from "../../../components/HashtagText";
 import { BsFillHeartFill } from "react-icons/bs";
 import { useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
+import { useAuth } from "../../../hooks/authContext";
 
 export default function PostItem({ data, updateTimeline, userName }) {
   const { id, image_url, name, link, message, owner, user_id, shareInfo } =
     data;
+  const { sharerName, sharerId, shareCount } = shareInfo;
+
+  const { user } = useAuth();
 
   const [text, setText] = useState(message);
   const [currMessage, setCurrMessage] = useState(message);
@@ -163,10 +167,15 @@ export default function PostItem({ data, updateTimeline, userName }) {
 
   return (
     <PostStyle>
-      {shareInfo.sharerId ? (
+      {sharerId ? (
         <p className="repost-text">
           <Fa.FaRetweet className="icon" />
-          Re-posted by {shareInfo.sharerName}
+          <span>
+            Re-posted by{" "}
+            <span className="sharer-name">
+              {sharerName === user.name ? "you" : sharerName}
+            </span>
+          </span>
         </p>
       ) : (
         ""
@@ -280,7 +289,7 @@ export default function PostItem({ data, updateTimeline, userName }) {
             </div>
             <div className="action" onClick={() => confirmRepost(id)}>
               <Fa.FaRetweet />
-              <p>{shareInfo.shareCount} re-post</p>
+              <p>{shareCount} re-post</p>
             </div>
           </div>
         </PostSidebar>

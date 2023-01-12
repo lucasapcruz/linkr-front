@@ -18,6 +18,10 @@ export const PostStyle = styled.li`
     .icon {
       font-size: 16px;
     }
+
+    .sharer-name {
+      font-weight: bold;
+    }
   }
 
   .post-item {
