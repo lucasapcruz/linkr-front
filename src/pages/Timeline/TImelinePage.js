@@ -80,26 +80,37 @@ export default function TimelinePage({ state }) {
 
     let refGetPosts
 
-    if (state !== "user") {
-      refGetPosts = getPosts(1, null);
+    if(posts){
+      if (state !== "user") {
+        refGetPosts = getPosts(1, null);
+      }
+  
+      refGetPosts
+        .then((r) => {
+          const incomingPosts = r.data.posts
+          const incomingPostsIds = incomingPosts.map(e => e.id)
+          const postsId = posts.map( e => e.id)
+          console.log("incoming", incomingPostsIds)
+          console.log("posts", postsId)
+          const updatedPostsIds = []
+          incomingPostsIds.forEach((e) => {
+            if(!(postsId.includes(e))){
+              updatedPostsIds.push(e)
+            }
+          });
+          const updatedPosts = incomingPosts.filter( e => {
+            if(incomingPostsIds.includes(e.id)){
+              return e
+            }
+          })
+          console.log(updatedPosts)
+          setNewPosts(updatedPosts)
+        })
+        .catch((e) => {
+          console.log(e);
+          setStatus(false);
+        });
     }
-
-    refGetPosts
-      .then((r) => {
-        const incomingPosts = r.data.posts
-        const updatedPosts = []
-        for (let i = 0; i < incomingPosts.length; i++) {
-          if (incomingPosts[i].id !== posts[i].id) {
-            updatedPosts.push(incomingPosts[i])
-          }
-        }
-        setNewPosts(updatedPosts)
-      })
-      .catch((e) => {
-        console.log(e);
-        setStatus(false);
-      });
-
   }, 15000)
 
   function clickHandler() {
