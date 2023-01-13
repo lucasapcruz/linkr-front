@@ -11,12 +11,12 @@ export default function TimelinePage({ state }) {
   const [update, setUpdate] = useState(false);
   const [status, setStatus] = useState(true);
   const [posts, setPosts] = useState(null);
-  const [postsPage, setPostsPage] = useState(1);
   const [title, setTitle] = useState("");
   const [following, setFollowing] = useState();
   const navigate = useNavigate();
   const { user, setUser } = useAuth();
   const { id } = useParams();
+  const [postsPage, setPostsPage] = useState(1);
   const [hasMoreItems, setHasMoreItems] = useState(true);
 
   useEffect(() => {
@@ -38,11 +38,13 @@ export default function TimelinePage({ state }) {
   }
 
   async function fecthPosts(){
-    const refGetPosts = state === "user" ? getPostsUser(id,postsPage) : getPosts(postsPage);
+    const refGetPosts = state === "user" ? getPostsUser(id,postsPage,null) : getPosts(postsPage, null);
     setTitle(state ? "" : "timeline");
 
     refGetPosts
       .then((r) => {
+        console.log(user)
+        console.log(r.data.posts)
         if(r.data.posts.length < 10){
           setHasMoreItems(false)
         }else{
@@ -55,7 +57,7 @@ export default function TimelinePage({ state }) {
         }
         if (state) {
           setTitle(r.data.name.split(" ")[0] + "'s posts");
-          setFollowing(r.data.following);
+          setFollowing(r.data.localFollowing);
         } else {
           setUser((u) => ({ ...u, following: r.data.localFollowing }));
         }

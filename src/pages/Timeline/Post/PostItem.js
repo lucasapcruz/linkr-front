@@ -23,9 +23,9 @@ import Swal from "sweetalert2";
 import { useAuth } from "../../../hooks/authContext";
 
 export default function PostItem({ data, updateTimeline, userName }) {
-  const { id, image_url, name, link, message, owner, user_id, shareInfo } =
+  const { id, image_url, name, link, message, owner, user_id, shareinfo } =
     data;
-  const { sharerName, sharerId, shareCount } = shareInfo;
+  const { sharerName, sharerId, shareCount } = shareinfo;
 
   const { user } = useAuth();
 

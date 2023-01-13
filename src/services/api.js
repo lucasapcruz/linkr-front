@@ -39,8 +39,8 @@ export function postPost(body) {
   return api.post("/posts", body);
 }
 
-export function getPosts(hashtag = null, postsPage) {
-  const route = hashtag ? `/posts?page=${postsPage}&hashtag=${hashtag}` : `/posts?page=${postsPage}`;
+export function getPosts(postsPage, hashtag = null) {
+  const route = hashtag? `/posts?page=${postsPage}&hashtag=${hashtag}` : `/posts?page=${postsPage}`;
   return api.get(route);
 }
 

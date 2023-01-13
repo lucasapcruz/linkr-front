@@ -22,6 +22,7 @@ export default function Timeline({
   }
 
   useEffect(() => {
+    console.log(posts)
     window.scrollTo(0, 0);
     setPosts(null);
   }, [update, setPosts]);
@@ -57,8 +58,7 @@ export default function Timeline({
               <div className="status">
                 {state
                   ? "This user don't have posts yet."
-                  : user.following
-                  ? "No posts found from your friends"
+                  : user.following ? "No posts found from your friends"
                   : "You don't follow anyone yet. Search for new friends!"}
               </div>
             )

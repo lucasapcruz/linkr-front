@@ -15,10 +15,23 @@ export default function HashtagPage() {
   const navigate = useNavigate();
   const [title, setTitle] = useState(`# ${hashtag}`);
   const { id } = useParams();
+  const [postsPage, setPostsPage] = useState(1);
+  const [hasMoreItems, setHasMoreItems] = useState(true);
 
   useEffect(() => {
-    getPosts(hashtag)
-    .then(r => setPosts(r.data.posts))
+    getPosts(postsPage, hashtag)
+    .then(r => {
+      if(r.data.posts.length < 10){
+        setHasMoreItems(false)
+      }else{
+        setPostsPage(postsPage+1)
+      }
+      if(!posts){
+        setPosts([...r.data.posts]);
+      }else{
+        setPosts([...posts, ...r.data.posts]);
+      }
+    })
     .catch(e => {
       console.log(e);
       setStatus(false);
