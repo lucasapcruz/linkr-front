@@ -30,6 +30,12 @@ export const TimelineStyle = styled.div`
     text-align: center;
   }
 
+  .loader{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
   @media (max-width:611px) {    
     main, ul, li, a {
       width: 100%;
@@ -68,6 +74,13 @@ export const TimelineStyle = styled.div`
           margin-bottom: 10px;
         }
       }
+    }
+
+    .loader{
+      width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
     }
 
     .content {
@@ -118,5 +131,6 @@ export const TimelineStyle = styled.div`
       -webkit-line-clamp: 2;
               line-clamp: 2; 
     }
+
   }
 `;

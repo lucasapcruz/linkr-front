@@ -7,6 +7,7 @@ import { useEffect, useState } from "react";
 import InfiniteScroll from 'react-infinite-scroller';
 import { followUser, getPosts, getPostsUser } from "../../services/api";
 import useInterval from "use-interval";
+import { TailSpin } from "react-loader-spinner";
 
 export default function TimelinePage({ state }) {
   const [update, setUpdate] = useState(false);
@@ -52,7 +53,7 @@ export default function TimelinePage({ state }) {
         if (r.data.posts.length < 10) {
           setHasMoreItems(false)
         } else {
-          setPostsPage(postsPage+1)
+          setPostsPage(postsPage + 1)
         }
         if (!posts) {
           setPosts([...r.data.posts]);
@@ -72,14 +73,14 @@ export default function TimelinePage({ state }) {
         setStatus(false);
       });
   }
-  
+
   useInterval(() => {
     const localUser = JSON.parse(localStorage.getItem("user"));
     if (!localUser) return navigate("/");
 
     let refGetPosts
 
-    if(state !== "user"){
+    if (state !== "user") {
       refGetPosts = getPosts(1, null);
     }
 
@@ -87,8 +88,8 @@ export default function TimelinePage({ state }) {
       .then((r) => {
         const incomingPosts = r.data.posts
         const updatedPosts = []
-        for(let i=0; i<incomingPosts.length; i++){
-          if(incomingPosts[i].id !== posts[i].id){
+        for (let i = 0; i < incomingPosts.length; i++) {
+          if (incomingPosts[i].id !== posts[i].id) {
             updatedPosts.push(incomingPosts[i])
           }
         }
@@ -101,7 +102,7 @@ export default function TimelinePage({ state }) {
 
   }, 15000)
 
-  function clickHandler(){
+  function clickHandler() {
     const mergedPosts = posts
     mergedPosts.unshift(...newPosts)
     setPosts(mergedPosts)
@@ -113,6 +114,26 @@ export default function TimelinePage({ state }) {
       Loading ...
     </div>
   );
+
+  const miniLoader = (
+    <div className={"loader"}>
+      <div className={"loader-container"}>
+      <TailSpin
+        height="40"
+        width="40"
+        color="#6D6D6D"
+        ariaLabel="tail-spin-loading"
+        radius="1"
+        wrapperStyle={{ alignSelf: "center" }}
+        wrapperClass=""
+        visible={true}
+      />
+      <p key="loader" className="loader">
+        Loading more posts...
+      </p>
+      </div>
+    </div>
+  )
 
   return (
     <>
@@ -128,7 +149,7 @@ export default function TimelinePage({ state }) {
         <InfiniteScroll
           loadMore={fecthPosts}
           hasMore={hasMoreItems}
-          loader={loader}>
+          loader={miniLoader}>
           <Timeline
             user={user}
             update={update}
