@@ -1,7 +1,7 @@
 import axios from "axios";
 
-//const URL = "http://localhost:5000/";
-const URL = "https://linkr-api-itfc.onrender.com/";
+const URL = "http://localhost:5000/";
+//const URL = "https://linkr-api-itfc.onrender.com/";
 
 export const api = axios.create({ baseURL: URL });
 
@@ -67,6 +67,10 @@ export function deletePost(id) {
 
 export function repost(id) {
   return api.post(`/share/${id}`);
+}
+
+export function postComment(body) {
+  return api.post(`/comments`, body);
 }
 
 // HASHTAGS ==========================

@@ -9,7 +9,7 @@ import {
 import PostLink from "./Link/PostLink";
 import { PostSidebar, PostStyle } from "./PostStyle";
 import PostComment from "./Comment/PostComment";
-import PostAuthor from "./Comment/AuthorComment";
+import PostAuthor from "./Comment/PostAuthor";
 
 import { RiPencilFill } from "react-icons/ri";
 import { IoTrash } from "react-icons/io5";
@@ -166,6 +166,7 @@ export default function PostItem({ data, updateTimeline, userName }) {
 
   function sharePost(id) {
     repost(id);
+    updateTimeline();
   }
 
   return (
@@ -327,7 +328,7 @@ export default function PostItem({ data, updateTimeline, userName }) {
       </div>
       <div className="post-comments">
         <PostComment data={ data }/>
-        <PostAuthor postId={id}/>
+        <PostAuthor postId={id} updateTimeline={updateTimeline}/>
       </div>
     </PostStyle>
   );

@@ -1,17 +1,24 @@
 import { FiSend } from "react-icons/fi";
 import styled from "styled-components";
 import { useAuth } from "../../../../hooks/authContext";
+import { postComment } from "../../../../services/api";
 
 
-export default function PostAuthor(){
+export default function PostAuthor({postId}) {
 
-    const { user } = useAuth()
+    const { user } = useAuth();
+
+    function eventHandler(e) {
+        e.preventDefault();
+        const message = e.target[0].value;
+        postComment({postId, message});
+    }
 
     return(
         <Comment>
           <img src={user.pictureUrl} alt=""/>
           <div className="conteiner-comment">
-            <div className="comment">
+            <form className="comment" onSubmit={eventHandler}>
                 <input className="message"
                     type="text"
                     placeholder="Write something..."
@@ -19,8 +26,8 @@ export default function PostAuthor(){
                     autoComplete="off"
                     required
                 />
-                <FiSend />
-            </div>               
+                <button><FiSend/></button>
+            </form>
           </div>
         </Comment>
     )
