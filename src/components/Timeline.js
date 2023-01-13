@@ -3,34 +3,29 @@ import { TailSpin } from "react-loader-spinner";
 import { TimelineStyle } from "../pages/Timeline/TimelineStyle";
 import PostItem from "../pages/Timeline/Post/PostItem";
 import PublishItem from "../pages/Timeline/Publish/PublishItem";
-// eslint-disable-next-line
-import InfiniteScroll from "react-infinite-scroller";
 
 export default function Timeline({
   user,
-  navigate,
   update,
   state,
   status,
   publishEnabled,
   posts,
   setPosts,
+  setPostsPage,
+  setHasMoreItems
 }) {
   function updateTimeline() {
     window.scrollTo(0, 0);
     setPosts(null);
+    setPostsPage(1);
+    setHasMoreItems(true);
   }
 
   useEffect(() => {
-    console.log(posts)
-    window.scrollTo(0, 0);
-    setPosts(null);
-  }, [update, setPosts]);
-
-  useEffect(() => {
-    const localUser = JSON.parse(localStorage.getItem("user"));
-    if (!localUser) navigate("/");
-  }, [navigate]);
+    updateTimeline();
+    // eslint-disable-next-line
+  }, [update]);
 
   return (
     <>

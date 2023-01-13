@@ -6,7 +6,7 @@ export default function Home() {
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (user?.token) navigate("/timeline");
+    if (user) navigate("/timeline");
     else navigate("/sign-in");
   }, [navigate, user]);
 

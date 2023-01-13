@@ -16,12 +16,13 @@ export default function TimelinePage({ state }) {
   const navigate = useNavigate();
   const { user, setUser } = useAuth();
   const { id } = useParams();
+
   const [postsPage, setPostsPage] = useState(1);
   const [hasMoreItems, setHasMoreItems] = useState(true);
 
   useEffect(() => {
-    fecthPosts()
-  }, [id, state, setUser]);
+    setUpdate(v => !v);
+  }, [id]);
 
   function toogleFollowing(e) {
     e.target.disabled = true;
@@ -37,24 +38,29 @@ export default function TimelinePage({ state }) {
       });
   }
 
-  async function fecthPosts(){
-    const refGetPosts = state === "user" ? getPostsUser(id,postsPage,null) : getPosts(postsPage, null);
+  async function fecthPosts() {
+    const localUser = JSON.parse(localStorage.getItem("user"));
+    if (!localUser) return navigate("/");
+
+    const refGetPosts = (state === "user") ? getPostsUser(id, postsPage, null) : getPosts(postsPage, null);
     setTitle(state ? "" : "timeline");
+
     refGetPosts
       .then((r) => {
-        if(r.data.posts.length < 10){
+        if (r.data.posts.length < 10) {
           setHasMoreItems(false)
-        }else{
+        } else {
           setPostsPage(postsPage+1)
         }
-        if(!posts){
+        if (!posts) {
           setPosts([...r.data.posts]);
-        }else{
+        } else {
           setPosts([...posts, ...r.data.posts]);
         }
+
         if (state) {
           setTitle(r.data.name.split(" ")[0] + "'s posts");
-          setFollowing(r.data.localFollowing);
+          setFollowing(r.data.following);
         } else {
           setUser((u) => ({ ...u, following: r.data.localFollowing }));
         }
@@ -88,7 +94,6 @@ export default function TimelinePage({ state }) {
           loader={loader}>
           <Timeline
             user={user}
-            navigate={navigate}
             update={update}
             setTitle={setTitle}
             id={id}
@@ -99,6 +104,8 @@ export default function TimelinePage({ state }) {
             hashtag={null}
             posts={posts}
             setPosts={setPosts}
+            setPostsPage={setPostsPage}
+            setHasMoreItems={setHasMoreItems}
           />
         </InfiniteScroll>
       </MainContainer>

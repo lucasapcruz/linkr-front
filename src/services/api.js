@@ -53,7 +53,7 @@ export function getLikes() {
 }
 
 export function getPostsUser(id, postsPage) {
-  const route = `/posts/user/${id}?page=postsPage` ;
+  const route = `/posts/user/${id}?page=${postsPage}` ;
   return api.get(route);
 }
 
