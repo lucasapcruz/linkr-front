@@ -3,6 +3,7 @@ import { TailSpin } from "react-loader-spinner";
 import { TimelineStyle } from "../pages/Timeline/TimelineStyle";
 import PostItem from "../pages/Timeline/Post/PostItem";
 import PublishItem from "../pages/Timeline/Publish/PublishItem";
+import NewPostsButton from "./NewPostsButton";
 
 export default function Timeline({
   user,
@@ -13,7 +14,9 @@ export default function Timeline({
   posts,
   setPosts,
   setPostsPage,
-  setHasMoreItems
+  setHasMoreItems,
+  newPosts,
+  clickHandler
 }) {
   function updateTimeline() {
     window.scrollTo(0, 0);
@@ -33,10 +36,10 @@ export default function Timeline({
         <ul>
           {publishEnabled ? (
             !state ? (
-              <PublishItem
+              <><PublishItem
                 image={user.pictureUrl}
-                updateTimeline={updateTimeline}
-              />
+                updateTimeline={updateTimeline} />
+                {newPosts ? newPosts.length > 0 ? <NewPostsButton nrNewPosts={newPosts.length} onCLick={clickHandler} /> : null : null} </>
             ) : null
           ) : null}
           {posts ? (
@@ -54,7 +57,7 @@ export default function Timeline({
                 {state
                   ? "This user don't have posts yet."
                   : user.following ? "No posts found from your friends"
-                  : "You don't follow anyone yet. Search for new friends!"}
+                    : "You don't follow anyone yet. Search for new friends!"}
               </div>
             )
           ) : status ? (
