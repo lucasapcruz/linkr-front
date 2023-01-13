@@ -52,8 +52,8 @@ export function getLikes() {
   return api.get("/likes");
 }
 
-export function getPostsUser(id) {
-  const route = "/posts/user/" + id;
+export function getPostsUser(id, postsPage) {
+  const route = `/posts/user/${id}?page=postsPage` ;
   return api.get(route);
 }
 
