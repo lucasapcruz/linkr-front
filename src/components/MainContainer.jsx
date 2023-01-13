@@ -75,6 +75,48 @@ const Div = styled.div`
     display: none;
   }
 
+  .loader {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .loader-container {
+    width: 150px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .loader-container p {
+    margin-top: 25px;
+    margin-bottom: 50px;
+    color: #6d6d6d;
+  }
+
+  .loader {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .loader-container {
+    width: 150px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .loader-container p {
+    margin-top: 25px;
+    margin-bottom: 50px;
+    color: #6d6d6d;
+  }
+
   @media (max-width: 710px) {
     grid-template-columns: 1fr 1fr 2fr 1fr;
 
