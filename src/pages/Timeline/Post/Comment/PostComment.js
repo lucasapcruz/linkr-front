@@ -2,16 +2,15 @@ import { FiSend } from "react-icons/fi";
 import styled from "styled-components";
 
 export default function PostComment({data}){
-    const { id, image_url, name, link, message, owner, user_id, shareinfo } =
-    data
+    const { image_url, name, message } = data;
 
     return(
         <Comment>
           <img src={image_url} alt=""/>
           <div className="conteiner-comment">
-            <p className="name">Joãozinho - following</p>
+            <p className="name">{name}</p>
             <div className="comment">
-                <p className="message"> ACHEI UM PORRE </p>
+                <p className="message">{message}</p>
             </div>               
           </div>
         </Comment>

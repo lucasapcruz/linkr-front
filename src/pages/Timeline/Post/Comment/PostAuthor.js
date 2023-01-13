@@ -4,14 +4,16 @@ import { useAuth } from "../../../../hooks/authContext";
 import { postComment } from "../../../../services/api";
 
 
-export default function PostAuthor({postId}) {
+export default function PostAuthor({postId, setUpdateComments}) {
 
     const { user } = useAuth();
 
     function eventHandler(e) {
         e.preventDefault();
         const message = e.target[0].value;
+        e.target[0].value = "";
         postComment({postId, message});
+        setUpdateComments(v => !v);
     }
 
     return(
