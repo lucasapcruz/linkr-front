@@ -40,11 +40,8 @@ export default function TimelinePage({ state }) {
   async function fecthPosts(){
     const refGetPosts = state === "user" ? getPostsUser(id,postsPage,null) : getPosts(postsPage, null);
     setTitle(state ? "" : "timeline");
-
     refGetPosts
       .then((r) => {
-        console.log(user)
-        console.log(r.data.posts)
         if(r.data.posts.length < 10){
           setHasMoreItems(false)
         }else{

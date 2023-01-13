@@ -14,7 +14,9 @@ export default function PublishItem({ image, updateTimeline }) {
     const { link, message } = e.target;
     const data = { link: link.value };
     if (message.value) data.message = message.value;
-
+    console.log({
+      body:data
+    })
     postPost(data)
       .then((r) => {
         setLoading(false);
