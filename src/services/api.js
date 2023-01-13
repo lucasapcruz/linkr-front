@@ -69,6 +69,18 @@ export function repost(id) {
   return api.post(`/share/${id}`);
 }
 
+export function postComment(body) {
+  return api.post(`/comments`, body);
+}
+
+export function getComments() {
+  return api.get(`/comments`);
+}
+
+export function getCommentsId(id) {
+  return api.get(`/comments/${id}`);
+}
+
 // HASHTAGS ==========================
 export function getTrendingHashtags() {
   return api.get("/hashtags");

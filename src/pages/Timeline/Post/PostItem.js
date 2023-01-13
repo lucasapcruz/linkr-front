@@ -5,11 +5,13 @@ import {
   getLikes,
   updatePost,
   repost,
+  getComments,
+  getCommentsId,
 } from "../../../services/api";
 import PostLink from "./Link/PostLink";
 import { PostSidebar, PostStyle } from "./PostStyle";
 import PostComment from "./Comment/PostComment";
-import PostAuthor from "./Comment/AuthorComment";
+import PostAuthor from "./Comment/PostAuthor";
 
 import { RiPencilFill } from "react-icons/ri";
 import { IoTrash } from "react-icons/io5";
@@ -29,7 +31,6 @@ export default function PostItem({ data, updateTimeline, userName }) {
   const { id, image_url, name, link, message, owner, user_id, shareinfo } =
     data;
   const { sharerName, sharerId, shareCount } = shareinfo;
-
   const { user } = useAuth();
 
   const [text, setText] = useState(message);
@@ -42,6 +43,12 @@ export default function PostItem({ data, updateTimeline, userName }) {
   const [likesCounter, setLikesCounter] = useState(0);
   const [userLiked, setUserLiked] = useState(false);
   const [usersName, setUsersName] = useState("");
+
+  const [commentCount, setCommentCount] = useState(0);
+  const [commentOpen, setCommentOpen] = useState(false);
+  const [comments, setComments] = useState([]);
+  const [updateComments, setUpdateComments] = useState(false);
+
   const inputRef = useRef(null);
   const navigate = useNavigate();
   Modal.setAppElement("#root");
@@ -93,6 +100,26 @@ export default function PostItem({ data, updateTimeline, userName }) {
       inputRef.current.selectionStart = inputRef.current.value.length;
     }
   }, [editing]);
+
+  useEffect(() => {
+    getComments()
+    .then(r => {
+      const {comments} = r.data;
+      for (let i = 0; i < comments.length; i++) {
+        const element = comments[i];
+        if (element.postid === id) {
+          setCommentCount(element.countcomment);
+          break;
+        }
+      }
+    })
+    .catch(err => console.log(err));
+
+    getCommentsId(id)
+    .then(r => setComments(r.data.comments))
+    .catch(err => console.log(err));
+
+  }, [id, updateComments]);
 
   function handleText(e) {
     const ref = e.target;
@@ -166,6 +193,7 @@ export default function PostItem({ data, updateTimeline, userName }) {
 
   function sharePost(id) {
     repost(id);
+    updateTimeline();
   }
 
   return (
@@ -290,9 +318,9 @@ export default function PostItem({ data, updateTimeline, userName }) {
               )}
               <p>{likesCounter} likes</p>
             </div>
-            <div className="action">
+            <div className="action" onClick={() => setCommentOpen(true)}>
                 <AiOutlineComment/> 
-                <p>2 Comments</p>
+                <p>{commentCount} Comments</p>
             </div>
             <div className="action" onClick={() => confirmRepost(id)}>
               <Fa.FaRetweet />
@@ -326,8 +354,8 @@ export default function PostItem({ data, updateTimeline, userName }) {
         </div>
       </div>
       <div className="post-comments">
-        <PostComment data={ data }/>
-        <PostAuthor postId={id}/>
+        {commentOpen && comments.map((e, i) => <PostComment key={i} data={e}/>)}
+        <PostAuthor postId={id} setUpdateComments={setUpdateComments}/>
       </div>
     </PostStyle>
   );

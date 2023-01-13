@@ -44,9 +44,9 @@ export default function Timeline({
           ) : null}
           {posts ? (
             posts.length > 0 ? (
-              posts.map((e) => (
+              posts.map((e, i) => (
                 <PostItem
-                  key={e.id}
+                  key={i}
                   data={e}
                   userName={user.name}
                   updateTimeline={updateTimeline}
