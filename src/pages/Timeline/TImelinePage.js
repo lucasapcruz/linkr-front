@@ -6,6 +6,7 @@ import Timeline from "../../components/Timeline";
 import { useEffect, useState } from "react";
 import InfiniteScroll from 'react-infinite-scroller';
 import { followUser, getPosts, getPostsUser } from "../../services/api";
+import useInterval from "use-interval";
 
 export default function TimelinePage({ state }) {
   const [update, setUpdate] = useState(false);
@@ -19,6 +20,7 @@ export default function TimelinePage({ state }) {
 
   const [postsPage, setPostsPage] = useState(1);
   const [hasMoreItems, setHasMoreItems] = useState(true);
+  const [newPosts, setNewPosts] = useState([]);
 
   useEffect(() => {
     setUpdate(v => !v);
@@ -70,6 +72,41 @@ export default function TimelinePage({ state }) {
         setStatus(false);
       });
   }
+  
+  useInterval(() => {
+    const localUser = JSON.parse(localStorage.getItem("user"));
+    if (!localUser) return navigate("/");
+
+    let refGetPosts
+
+    if(state !== "user"){
+      refGetPosts = getPosts(1, null);
+    }
+
+    refGetPosts
+      .then((r) => {
+        const incomingPosts = r.data.posts
+        const updatedPosts = []
+        for(let i=0; i<incomingPosts.length; i++){
+          if(incomingPosts[i].id !== posts[i].id){
+            updatedPosts.push(incomingPosts[i])
+          }
+        }
+        setNewPosts(updatedPosts)
+      })
+      .catch((e) => {
+        console.log(e);
+        setStatus(false);
+      });
+
+  }, 15000)
+
+  function clickHandler(){
+    const mergedPosts = posts
+    mergedPosts.unshift(...newPosts)
+    setPosts(mergedPosts)
+    setNewPosts([])
+  }
 
   const loader = (
     <div key="loader" className="loader">
@@ -106,6 +143,8 @@ export default function TimelinePage({ state }) {
             setPosts={setPosts}
             setPostsPage={setPostsPage}
             setHasMoreItems={setHasMoreItems}
+            newPosts={newPosts}
+            clickHandler={clickHandler}
           />
         </InfiniteScroll>
       </MainContainer>
