@@ -15,15 +15,18 @@ export default function HashtagPage() {
   const { user } = useAuth();
   const navigate = useNavigate();
   const [title, setTitle] = useState(`# ${hashtag}`);
-  const { id } = useParams();
+
   const [postsPage, setPostsPage] = useState(1);
   const [hasMoreItems, setHasMoreItems] = useState(true);
 
   useEffect(() => {
-    fecthPosts()
+    setUpdate(v => !v);
   }, [hashtag]);
 
   async function fecthPosts(){
+    const localUser = JSON.parse(localStorage.getItem("user"));
+    if (!localUser) return navigate("/");
+
     getPosts(postsPage, hashtag)
       .then(r => {
         if (r.data.posts.length < 10) {
@@ -31,6 +34,7 @@ export default function HashtagPage() {
         } else {
           setPostsPage(postsPage + 1)
         }
+
         if (!posts) {
           setPosts([...r.data.posts]);
         } else {
@@ -43,7 +47,6 @@ export default function HashtagPage() {
       });
 
     setTitle(`# ${hashtag}`);
-    setUpdate(val => !val);
   }
 
   const loader = (
@@ -62,16 +65,16 @@ export default function HashtagPage() {
           loader={loader}>
           <Timeline
             user={user}
-            navigate={navigate}
             update={update}
             setTitle={setTitle}
-            id={id}
             status={status}
             setStatus={setStatus}
             publishEnabled={false}
             hashtag={hashtag}
             posts={posts}
             setPosts={setPosts}
+            setPostsPage={setPostsPage}
+            setHasMoreItems={setHasMoreItems}
           />
         </InfiniteScroll>
       </MainContainer>
