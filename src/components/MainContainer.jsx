@@ -3,21 +3,31 @@ import { FollowButton } from "./FollowButton";
 import SearchBar from "./SearchBar";
 import Trending from "./Trending";
 
-export default function MainContainer({ pageTitle, update, setUpdate, children, following, toogleFollowing }) {
+export default function MainContainer({
+  pageTitle,
+  update,
+  setUpdate,
+  children,
+  following,
+  toogleFollowing,
+}) {
   return (
     <>
       <Div>
         <div className="searchbar-wrapper">
-          <SearchBar className="searchtl" setUpdate={setUpdate}/>
+          <SearchBar className="searchtl" setUpdate={setUpdate} />
         </div>
         <p className="page-title">{pageTitle}</p>
 
-        {(following !== undefined) && <FollowButton onClick={toogleFollowing} following={following}>
-          {following ? "Unfollow" : "Follow"}
-        </FollowButton>}
+        {following !== undefined && (
+          <FollowButton onClick={toogleFollowing} following={following}>
+            {following ? "Unfollow" : "Follow"}
+          </FollowButton>
+        )}
         <div className="children">{children}</div>
-        <Trending className="trending" update={update}/>
-
+        <div className="trending-column">
+          <Trending className="trending" update={update} />
+        </div>
       </Div>
     </>
   );
@@ -44,24 +54,36 @@ const Div = styled.div`
     grid-column-end: 3; */
   }
 
-  .trending {
-    grid-row: 2;
-    grid-column: 3;
+  .trending-column {
+    position: relative;
+
+    .trending {
+      position: fixed;
+      width: 100%;
+      box-sizing: border-box;
+      width: 301px;
+    }
+
+    @media (max-width: 1024px) {
+      .trending {
+        max-width: 200px;
+      }
+    }
   }
 
   .searchbar-wrapper {
     display: none;
   }
 
-  @media (max-width:710px) {
+  @media (max-width: 710px) {
     grid-template-columns: 1fr 1fr 2fr 1fr;
-    
+
     .trending {
       display: none;
     }
   }
 
-  @media (max-width:611px) {
+  @media (max-width: 611px) {
     display: unset;
 
     .searchbar-wrapper {
@@ -81,7 +103,7 @@ const Div = styled.div`
       }
     }
 
-    .page-title{
+    .page-title {
       margin-left: 5vw;
     }
 
