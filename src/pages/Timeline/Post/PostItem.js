@@ -8,11 +8,14 @@ import {
 } from "../../../services/api";
 import PostLink from "./Link/PostLink";
 import { PostSidebar, PostStyle } from "./PostStyle";
+import PostComment from "./Comment/PostComment";
+import PostAuthor from "./Comment/AuthorComment";
 
 import { RiPencilFill } from "react-icons/ri";
 import { IoTrash } from "react-icons/io5";
 import { IconContext } from "react-icons";
 import * as Fa from "react-icons/fa";
+import { AiOutlineComment } from "react-icons/ai";
 
 import Modal from "react-modal";
 import { TailSpin } from "react-loader-spinner";
@@ -287,6 +290,10 @@ export default function PostItem({ data, updateTimeline, userName }) {
               )}
               <p>{likesCounter} likes</p>
             </div>
+            <div className="action">
+                <AiOutlineComment/> 
+                <p>2 Comments</p>
+            </div>
             <div className="action" onClick={() => confirmRepost(id)}>
               <Fa.FaRetweet />
               <p>{shareCount} re-post</p>
@@ -317,6 +324,10 @@ export default function PostItem({ data, updateTimeline, userName }) {
           )}
           {link ? <PostLink data={link} /> : null}
         </div>
+      </div>
+      <div className="post-comments">
+        <PostComment data={ data }/>
+        <PostAuthor postId={id}/>
       </div>
     </PostStyle>
   );
