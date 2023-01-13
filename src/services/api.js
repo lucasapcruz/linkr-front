@@ -66,8 +66,7 @@ export function deletePost(id) {
 }
 
 export function repost(id) {
-  console.log(id);
-  // return api.post(`/share/${id}`);
+  return api.post(`/share/${id}`);
 }
 
 // HASHTAGS ==========================
